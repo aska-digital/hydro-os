@@ -48,7 +48,7 @@ a{color:var(--gold-bright)}
 nav{position:fixed;top:0;left:0;right:0;z-index:50;
   background:rgba(21,9,11,.86);backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line-soft)}
-nav .wrap{display:flex;align-items:center;gap:28px;height:64px}
+nav .wrap{display:flex;align-items:center;gap:8px 28px;min-height:64px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ivory);
   font-family:Marcellus,serif;font-size:1.25rem;letter-spacing:.04em}
 .brand svg{width:26px;height:26px}
@@ -60,7 +60,7 @@ nav .links a:hover{color:var(--gold-bright)}
   font-size:.78rem;color:var(--muted);text-decoration:none;white-space:nowrap}
 .lang a:hover{color:var(--gold-bright);border-color:var(--gold)}
 .lang a.on{background:var(--gold);border-color:var(--gold);color:#2a1214;font-weight:600}
-@media(max-width:720px){nav .links{display:none}.lang{margin-left:auto}}
+@media(max-width:720px){nav .links{display:none}.lang{margin-left:auto}.lang a{padding:3px 10px;font-size:.72rem}}
 
 /* hero */
 .hero{padding:150px 0 90px;position:relative}
