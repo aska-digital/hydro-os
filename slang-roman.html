@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<html lang="ur-Latn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ہائیڈرو او ایس — چارمینار واسطے اومارکی لیئر</title>
-<meta name="description" content="اومارکی کے اوپر اپنا لیئر، جو چارمینار کو شاہد میاں کی مشین بناتا۔ نیچے پورا اسٹاک اومارکی؛ ہر چینج لکھا ہوا اور گارڈ میں۔">
+<title>hydro-os — Charminar ki shaan!</title>
+<meta name="description" content="Arey miyaan! Omarchy ke upar apna khaas layer — Charminar ko Shahid miyaan ki apni machine banata, poora set!">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="hydro-os">
-<meta property="og:title" content="ہائیڈرو او ایس — چارمینار واسطے اومارکی لیئر">
-<meta property="og:description" content="اومارکی کے اوپر اپنا لیئر، جو چارمینار کو شاہد میاں کی مشین بناتا۔ نیچے پورا اسٹاک اومارکی؛ ہر چینج لکھا ہوا اور گارڈ میں۔">
-<meta property="og:url" content="https://aska-digital.github.io/hydro-os/hyderabadi.html">
+<meta property="og:title" content="hydro-os — Charminar ki shaan!">
+<meta property="og:description" content="Arey miyaan! Omarchy ke upar apna khaas layer — Charminar ko Shahid miyaan ki apni machine banata, poora set!">
+<meta property="og:url" content="https://aska-digital.github.io/hydro-os/slang-roman.html">
 <meta property="og:image" content="https://aska-digital.github.io/hydro-os/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ہائیڈرو او ایس — چارمینار واسطے اومارکی لیئر">
-<meta name="twitter:description" content="اومارکی کے اوپر اپنا لیئر، جو چارمینار کو شاہد میاں کی مشین بناتا۔ نیچے پورا اسٹاک اومارکی؛ ہر چینج لکھا ہوا اور گارڈ میں۔">
+<meta name="twitter:title" content="hydro-os — Charminar ki shaan!">
+<meta name="twitter:description" content="Arey miyaan! Omarchy ke upar apna khaas layer — Charminar ko Shahid miyaan ki apni machine banata, poora set!">
 <meta name="twitter:image" content="https://aska-digital.github.io/hydro-os/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600&family=Amiri:wght@400&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#15090b; --bg2:#1d0d10; --panel:#241216; --panel2:#2b151a;
@@ -33,8 +33,8 @@
 html{scroll-behavior:smooth}
 body{
   background:var(--bg); color:var(--ivory);
-  font-family:Amiri,Inter,system-ui,serif;
-  line-height:2; -webkit-font-smoothing:antialiased; font-size:1.08rem;
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
 }
 body::before{
   content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
@@ -43,37 +43,40 @@ body::before{
 ::selection{background:var(--gold);color:#2a1214}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
 a{color:var(--gold-bright)}
-code{font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;unicode-bidi:embed}
 
+/* nav */
 nav{position:fixed;top:0;left:0;right:0;z-index:50;
   background:rgba(21,9,11,.86);backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line-soft)}
 nav .wrap{display:flex;align-items:center;gap:28px;height:64px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ivory);
-  font-family:Amiri,serif;font-size:1.35rem}
+  font-family:Marcellus,serif;font-size:1.25rem;letter-spacing:.04em}
 .brand svg{width:26px;height:26px}
-nav .links{margin-right:auto;display:flex;gap:22px}
-nav .links a{color:var(--muted);text-decoration:none;font-size:1rem}
+nav .links{margin-left:auto;display:flex;gap:22px}
+nav .links a{color:var(--muted);text-decoration:none;font-size:.9rem}
 nav .links a:hover{color:var(--gold-bright)}
-.lang{display:flex;gap:6px;margin-right:18px;flex-wrap:wrap;row-gap:6px}
+.lang{display:flex;gap:6px;margin-left:18px;flex-wrap:wrap;row-gap:6px}
 .lang a{border:1px solid var(--line);border-radius:999px;padding:4px 13px;
-  font-size:.85rem;color:var(--muted);text-decoration:none;white-space:nowrap}
+  font-size:.78rem;color:var(--muted);text-decoration:none;white-space:nowrap}
 .lang a:hover{color:var(--gold-bright);border-color:var(--gold)}
-.lang a.on{background:var(--gold);border-color:var(--gold);color:#2a1214;font-weight:700}
-@media(max-width:720px){nav .links{display:none}.lang{margin-right:auto}}
+.lang a.on{background:var(--gold);border-color:var(--gold);color:#2a1214;font-weight:600}
+@media(max-width:720px){nav .links{display:none}.lang{margin-left:auto}}
 
+/* hero */
 .hero{padding:150px 0 90px;position:relative}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 @media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
 .eyebrow{display:flex;align-items:center;gap:12px;color:var(--gold);
-  font-size:1rem;margin-bottom:22px}
-h1{font-family:Amiri,serif;font-weight:700;font-size:clamp(2.6rem,6vw,4rem);
-  line-height:1.4;color:var(--gold-bright);margin-bottom:20px}
-.lede{font-size:1.3rem;color:var(--ivory);max-width:34em;margin-bottom:14px}
+  font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;margin-bottom:22px}
+.eyebrow .ur{font-family:Amiri,serif;font-size:1.3rem;letter-spacing:0;direction:rtl}
+h1{font-family:Marcellus,serif;font-weight:400;font-size:clamp(3rem,7vw,4.6rem);
+  line-height:1.05;color:var(--gold-bright);margin-bottom:20px}
+h1 .thin{color:var(--gold);opacity:.85}
+.lede{font-size:1.18rem;color:var(--ivory);max-width:34em;margin-bottom:14px}
 .lede2{color:var(--muted);max-width:36em;margin-bottom:34px}
 .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:38px}
-.btn{display:inline-block;padding:12px 28px;border-radius:3px;text-decoration:none;
-  font-weight:700;font-size:1.05rem;transition:transform .15s ease}
+.btn{display:inline-block;padding:13px 28px;border-radius:3px;text-decoration:none;
+  font-weight:600;font-size:.95rem;letter-spacing:.02em;transition:transform .15s ease}
 .btn-gold{background:linear-gradient(160deg,var(--gold-bright),var(--gold) 60%,var(--gold-deep));
   color:#2a1214;box-shadow:0 4px 24px rgba(217,164,65,.25)}
 .btn-gold:hover{transform:translateY(-2px)}
@@ -81,8 +84,8 @@ h1{font-family:Amiri,serif;font-weight:700;font-size:clamp(2.6rem,6vw,4rem);
 .btn-line:hover{background:rgba(217,164,65,.1)}
 .meta-row{display:flex;gap:10px;flex-wrap:wrap}
 .chip{border:1px solid var(--line);border-radius:999px;padding:6px 16px;
-  font-size:.95rem;color:var(--muted);background:rgba(217,164,65,.05)}
-.chip b{color:var(--gold-bright);font-weight:700}
+  font-size:.82rem;color:var(--muted);background:rgba(217,164,65,.05)}
+.chip b{color:var(--gold-bright);font-weight:600}
 .art-frame{border:1px solid var(--line);border-radius:6px;background:
   linear-gradient(170deg,var(--panel) 0%,var(--bg2) 100%);
   padding:28px;position:relative;overflow:hidden}
@@ -90,70 +93,78 @@ h1{font-family:Amiri,serif;font-weight:700;font-size:clamp(2.6rem,6vw,4rem);
   border-radius:3px;pointer-events:none}
 .art-frame svg{display:block;width:100%;height:auto}
 
+/* divider */
 .divider{display:flex;align-items:center;gap:14px;margin:0 auto;max-width:1080px;padding:0 24px}
 .divider::before,.divider::after{content:"";height:1px;flex:1;
   background:linear-gradient(90deg,transparent,var(--line),transparent)}
 .divider i{width:9px;height:9px;background:var(--gold);transform:rotate(45deg);flex:none;opacity:.8}
 
+/* sections */
 section{padding:84px 0}
 .sec-head{display:flex;gap:20px;align-items:flex-start;margin-bottom:34px}
 .arch{flex:none;width:58px;height:74px}
-h2{font-family:Amiri,serif;font-weight:700;font-size:clamp(1.8rem,3.4vw,2.5rem);
-  color:var(--ivory);line-height:1.5;margin-bottom:8px}
+.sec-num{font-family:Marcellus,serif}
+h2{font-family:Marcellus,serif;font-weight:400;font-size:clamp(1.7rem,3.4vw,2.4rem);
+  color:var(--ivory);line-height:1.2;margin-bottom:8px}
 .sec-sub{color:var(--muted);max-width:44em}
 .sec-sub code{color:var(--gold-bright)}
 p.body{color:var(--ivory);max-width:46em;margin-bottom:16px}
 p.body.muted{color:var(--muted)}
-ul.tight{margin:0 1.2em 16px 0;color:var(--ivory)}
+ul.tight{margin:0 0 16px 1.2em;color:var(--ivory)}
 ul.tight li{margin-bottom:8px}
 ul.tight li::marker{color:var(--gold)}
 
+/* code */
 .codeblock{position:relative;background:#0f0608;border:1px solid var(--line);
-  border-radius:6px;margin:18px 0;overflow:hidden;direction:ltr}
+  border-radius:6px;margin:18px 0;overflow:hidden}
 .codeblock .bar{display:flex;align-items:center;gap:8px;padding:10px 16px;
   border-bottom:1px solid var(--line-soft);background:rgba(217,164,65,.04)}
 .codeblock .bar .dot{width:9px;height:9px;border-radius:50%;background:var(--maroon)}
 .codeblock .bar .dot:first-child{background:var(--gold-deep)}
-.codeblock .bar span{margin-left:auto;font-size:.75rem;color:var(--dim);letter-spacing:.08em;font-family:Inter,sans-serif}
-.codeblock pre{padding:18px 20px;overflow-x:auto;font-size:.92rem;line-height:1.7;text-align:left;
+.codeblock .bar span{margin-left:auto;font-size:.75rem;color:var(--dim);letter-spacing:.08em}
+.codeblock pre{padding:18px 20px;overflow-x:auto;font-size:.92rem;line-height:1.7;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--ivory)}
 .codeblock .copy{position:static;flex:none;margin-left:10px;background:transparent;
   border:1px solid var(--line);color:var(--muted);border-radius:4px;font-size:.75rem;
   padding:4px 12px;cursor:pointer;font-family:Inter,sans-serif}
 .codeblock .copy:hover{color:var(--gold-bright);border-color:var(--gold)}
-.tok-c{color:var(--dim)}
+.tok-c{color:var(--dim)} .tok-k{color:var(--gold-bright)}
 
+/* cards */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:8px}
 .card{background:linear-gradient(170deg,var(--panel),var(--bg2));
   border:1px solid var(--line);border-radius:6px;padding:26px 24px;position:relative}
 .card::before{content:"";position:absolute;top:0;left:24px;right:24px;height:3px;
   background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold) 80%,transparent);
   border-radius:0 0 4px 4px}
-.card h3{font-family:Amiri,serif;font-weight:700;font-size:1.25rem;color:var(--gold-bright);
+.card h3{font-family:Marcellus,serif;font-weight:400;font-size:1.15rem;color:var(--gold-bright);
   margin-bottom:10px}
-.card h3 code{font-size:1rem;color:var(--gold-bright)}
-.card p{color:var(--muted);font-size:1rem}
+.card h3 code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:1rem;color:var(--gold-bright)}
+.card p{color:var(--muted);font-size:.94rem}
 .card p code{color:var(--gold-bright);font-size:.86em}
 
+/* rules */
 .rules{list-style:none;counter-reset:rule;display:grid;gap:16px;margin-top:8px}
 .rules li{counter-increment:rule;display:flex;gap:20px;align-items:flex-start;
   background:linear-gradient(170deg,var(--panel),var(--bg2));
   border:1px solid var(--line);border-radius:6px;padding:22px 24px}
 .rules li::before{content:counter(rule,decimal-leading-zero);
-  font-family:Amiri,serif;font-size:1.5rem;color:var(--gold);
+  font-family:Marcellus,serif;font-size:1.5rem;color:var(--gold);
   border:1px solid var(--line);border-radius:50% 50% 50% 4px;
   width:52px;height:52px;flex:none;display:flex;align-items:center;justify-content:center}
 .rules p{color:var(--ivory)}
 .rules p code{color:var(--gold-bright)}
 
+/* nothere */
 .nothere{margin-top:26px;border:1px dashed var(--line);border-radius:6px;padding:22px 26px;
   background:rgba(122,42,48,.12)}
-.nothere h3{font-family:Amiri,serif;font-weight:700;color:var(--gold-bright);margin-bottom:10px}
-.nothere ul{margin-right:1.2em;color:var(--muted)}
+.nothere h3{font-family:Marcellus,serif;font-weight:400;color:var(--gold-bright);margin-bottom:10px}
+.nothere ul{margin-left:1.2em;color:var(--muted)}
 .nothere li{margin-bottom:6px}
 .nothere li::marker{color:var(--maroon)}
 .nothere code{color:var(--gold-bright)}
 
+/* source */
 .source-panel{text-align:center;border:1px solid var(--line);border-radius:8px;
   background:linear-gradient(170deg,var(--panel2),var(--bg2));padding:56px 32px;position:relative;overflow:hidden}
 .source-panel::before{content:"";position:absolute;inset:12px;border:1px solid var(--line-soft);
@@ -163,33 +174,33 @@ ul.tight li::marker{color:var(--gold)}
 
 footer{border-top:1px solid var(--line-soft);padding:38px 0 48px;margin-top:20px}
 footer .wrap{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-footer .fbrand{display:flex;align-items:center;gap:10px;font-family:Amiri,serif;color:var(--gold-bright);font-size:1.15rem}
+footer .fbrand{display:flex;align-items:center;gap:10px;font-family:Marcellus,serif;color:var(--gold-bright)}
 footer .fbrand svg{width:22px;height:22px}
-footer p{color:var(--dim);font-size:.95rem;margin-right:auto}
+footer p{color:var(--dim);font-size:.85rem;margin-left:auto}
 </style>
 </head>
 <body>
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="hyderabadi.html" aria-label="ہائیڈرو او ایس">
+    <a class="brand" href="#top" aria-label="hydro-os home">
       <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><g stroke="#d9a441" stroke-width="2"><rect x="7" y="7" width="18" height="18"/><rect x="7" y="7" width="18" height="18" transform="rotate(45 16 16)"/></g><circle cx="16" cy="16" r="2.6" fill="#d9a441"/></svg>
-      ہائیڈرو او ایس
+      hydro-os
     </a>
     <div class="links">
-      <a href="#what">یہ کیا ہے</a>
-      <a href="#install">انسٹال</a>
-      <a href="#inside">اندر کیا ہے</a>
-      <a href="#rules">اصول</a>
-      <a href="#source">سورس</a>
+      <a href="#what">Ye kya hai</a>
+      <a href="#install">Install</a>
+      <a href="#inside">Andar kya hai</a>
+      <a href="#rules">Usool</a>
+      <a href="#source">Source</a>
     </div>
-    <div class="lang" role="navigation" aria-label="زبان">
+    <div class="lang" role="navigation" aria-label="Language">
       <a href="index.html" lang="en">EN</a>
       <a href="ur.html" lang="ur">اردو</a>
-      <a href="hyderabadi.html" class="on" lang="ur">دکنی</a>
+      <a href="hyderabadi.html" lang="ur">دکنی</a>
       <a href="slang.html" lang="ur">مزاحیہ</a>
       <a href="dakhni-roman.html" lang="ur-Latn">Roman Dakhni</a>
-      <a href="slang-roman.html" lang="ur-Latn">Roman Slang</a>
+      <a href="slang-roman.html" class="on" lang="ur-Latn">Roman Slang</a>
     </div>
   </div>
 </nav>
@@ -197,18 +208,18 @@ footer p{color:var(--dim);font-size:.95rem;margin-right:auto}
 <header class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow"><span>اسکا ڈیجیٹل · ہائیڈرو او ایس</span></div>
-      <h1>ہائیڈرو او ایس</h1>
-      <p class="lede">اومارکی کے اوپر اپنا لیئر ہے، چارمینار کو شاہد میاں کی مشین بناتا۔</p>
-      <p class="lede2">نیچے پورا اسٹاک اومارکی ہے، اس کو ہاتھ بھی نہیں لگایا۔ ہم جو بھی چینج کرتے، سب یہیں لکھا ہوا، نشان لگا کے رہتا — اپ گریڈ صاف، مشین چالو۔</p>
+      <div class="eyebrow"><span>aska-digital · hydro-os</span><span class="ur" lang="ur">چار مینار</span></div>
+      <h1>hydro<span class="thin">-</span>os</h1>
+      <p class="lede">Arey miyaan! Ye Omarchy ke upar apna khaas layer hai — Charminar ko Shahid miyaan ki apni machine banata, poora set!</p>
+      <p class="lede2">Neeche poora asli Omarchy hai, humne usko haath bhi nahi lagaya. Jo bhi change hai, sab yahin likha pada hai — nishaan laga ke, lock kar ke. Upgrade aaye toh tension nakko, machine maze mein chalti rehti.</p>
       <div class="cta-row">
-        <a class="btn btn-gold" href="https://github.com/aska-digital/hydro-os">لیئر لے لو</a>
-        <a class="btn btn-line" href="#install">لگانے کا طریقہ</a>
+        <a class="btn btn-gold" href="https://github.com/aska-digital/hydro-os">Layer utha lo</a>
+        <a class="btn btn-line" href="#install">Lagana kaisa?</a>
       </div>
       <div class="meta-row">
-        <span class="chip">پن بیس <b>اومارکی 4.0.4</b></span>
-        <span class="chip">مشین <b>چارمینار</b></span>
-        <span class="chip">ٹیم <b>ہائیڈرو ٹیم</b></span>
+        <span class="chip">Pin: <b>Omarchy 4.0.4</b></span>
+        <span class="chip">Machine: <b>Charminar</b></span>
+        <span class="chip">Team: <b>hydro-team</b></span>
       </div>
     </div>
     <div class="art-frame" aria-hidden="true">
@@ -216,6 +227,7 @@ footer p{color:var(--dim);font-size:.95rem;margin-right:auto}
         <g fill="none" stroke="#d9a441" stroke-width="2" opacity="0.9">
           <line x1="40" y1="306" x2="380" y2="306"/>
           <line x1="56" y1="296" x2="364" y2="296" opacity="0.5"/>
+          <!-- minarets -->
           <g>
             <rect x="66" y="96" width="16" height="200"/>
             <path d="M66 96 a8 14 0 0 1 16 0"/>
@@ -248,7 +260,9 @@ footer p{color:var(--dim);font-size:.95rem;margin-right:auto}
             <line x1="338" y1="150" x2="354" y2="150" opacity="0.6"/>
             <line x1="338" y1="220" x2="354" y2="220" opacity="0.6"/>
           </g>
+          <!-- main block -->
           <rect x="138" y="170" width="144" height="126"/>
+          <!-- gallery band -->
           <rect x="138" y="146" width="144" height="24"/>
           <g opacity="0.7">
             <path d="M150 170 v-8 a6 8 0 0 1 12 0 v8"/>
@@ -257,10 +271,13 @@ footer p{color:var(--dim);font-size:.95rem;margin-right:auto}
             <path d="M222 170 v-8 a6 8 0 0 1 12 0 v8"/>
             <path d="M246 170 v-8 a6 8 0 0 1 12 0 v8"/>
           </g>
+          <!-- great arch -->
           <path d="M168 296 v-52 c0-30 42-34 42-66 c0 32 42 36 42 66 v52"/>
           <path d="M180 296 v-46 c0-24 30-28 30-52 c0 24 30 28 30 52 v46" opacity="0.45"/>
+          <!-- side niches -->
           <path d="M146 296 v-30 a8 10 0 0 1 16 0 v30" opacity="0.6"/>
           <path d="M258 296 v-30 a8 10 0 0 1 16 0 v30" opacity="0.6"/>
+          <!-- dome hint -->
           <path d="M196 146 c0-18 28-18 28 0" opacity="0.7"/>
           <line x1="210" y1="128" x2="210" y2="118" opacity="0.7"/>
         </g>
@@ -277,18 +294,18 @@ footer p{color:var(--dim);font-size:.95rem;margin-right:auto}
 <section id="what">
   <div class="wrap">
     <div class="sec-head">
-      <svg class="arch" viewBox="0 0 64 80" aria-hidden="true"><path d="M10 74 L10 38 Q10 22 32 10 Q54 22 54 38 L54 74 Z" fill="none" stroke="#d9a441" stroke-width="2"/><text x="32" y="52" text-anchor="middle" fill="#f2cd72" font-family="Amiri,serif" font-size="22">01</text></svg>
+      <svg class="arch" viewBox="0 0 64 80" aria-hidden="true"><path d="M10 74 L10 38 Q10 22 32 10 Q54 22 54 38 L54 74 Z" fill="none" stroke="#d9a441" stroke-width="2"/><text x="32" y="52" text-anchor="middle" fill="#f2cd72" font-family="Marcellus,serif" font-size="22">01</text></svg>
       <div>
-        <h2>یہ کیا ہے</h2>
-        <p class="sec-sub">فورک ورک نہیں۔ اسٹاک اومارکی کے اوپر پتلا سا اپنا لیئر۔</p>
+        <h2>Ye kya hai</h2>
+        <p class="sec-sub">Suno miyaan, ye fork-work kuch nahi hai!</p>
       </div>
     </div>
-    <p class="body">ہائیڈرو او ایس میں وہ چینجیں ہیں جو اسٹاک اومارکی انسٹال کو شاہد کی چلتی پھرتی مشین، چارمینار بناتیں۔ بیس سسٹم کو ہاتھ نہیں لگایا۔ ہمارے بلاک، لانچر، اسکرپٹ سب اسی ریپو میں ہیں، نشان لگے ہوئے — اپ گریڈ آئے تو ٹکر نکو۔</p>
+    <p class="body">Is repo mein woh sab changes hain jo stock Omarchy ko Shahid miyaan ki machine, Charminar banate. Base system? Usko humne dekha tak nahi! Block, launcher, script — sab yahin, nishaan lage hue. Upgrade aaye toh ghabrana nakko.</p>
     <ul class="tight">
-      <li><b>پن بیس۔</b> <code>VERSION</code> فائل میں اومارکی کا پورا ریلیز اور کرنل لکھا ہوا ہے۔ اپ گریڈ کرے تو یہ فائل بھی اپ ڈیٹ کرنا۔</li>
-      <li><b>ایک ہی مشین۔</b> چارمینار — اومارکی لینکس، ہائپر لینڈ، وے لینڈ۔ یہاں کی ہر چیز اسی واسطے بنی۔</li>
-      <li><b>ایک ہی ٹیم۔</b> ہائیڈرو ٹیم — حیدر نواب اور حیدر نظام۔ نواب کے پاس رائنو سی آر ایم ہے؛ نظام مشین پہ ایجنٹ سیٹ اپ دیکھتے۔</li>
-      <li><b>چھوٹا رکھو۔</b> اومارکی میں پیچ مارنے کا کام نکلا تو وہ فورک والی بات ہے — پہلے شاہد میاں سے پوچھو۔</li>
+      <li><b>Pin base.</b> <code>VERSION</code> file mein Omarchy ka poora bio-data likha hai. Upgrade kare toh isko bhi update karna, bhoolna nakko!</li>
+      <li><b>Ek hi machine.</b> Charminar — Omarchy Linux, Hyprland, Wayland, poora package. Yahaan ki har cheez isi ke naap ki bani.</li>
+      <li><b>Ek hi team.</b> hydro-team — hyd-nawab aur hyd-nizam. Nawab CRM ke boss; Nizam machine pe agent bithane wale.</li>
+      <li><b>Chhota rakho miyaan.</b> Omarchy ke andar ghus ke patch maarne ka scene nikla toh woh fork wali film hai — pehle Shahid miyaan se permission!</li>
     </ul>
   </div>
 </section>
@@ -298,10 +315,10 @@ footer p{color:var(--dim);font-size:.95rem;margin-right:auto}
 <section id="install">
   <div class="wrap">
     <div class="sec-head">
-      <svg class="arch" viewBox="0 0 64 80" aria-hidden="true"><path d="M10 74 L10 38 Q10 22 32 10 Q54 22 54 38 L54 74 Z" fill="none" stroke="#d9a441" stroke-width="2"/><text x="32" y="52" text-anchor="middle" fill="#f2cd72" font-family="Amiri,serif" font-size="22">02</text></svg>
+      <svg class="arch" viewBox="0 0 64 80" aria-hidden="true"><path d="M10 74 L10 38 Q10 22 32 10 Q54 22 54 38 L54 74 Z" fill="none" stroke="#d9a441" stroke-width="2"/><text x="32" y="52" text-anchor="middle" fill="#f2cd72" font-family="Marcellus,serif" font-size="22">02</text></svg>
       <div>
-        <h2>انسٹال</h2>
-        <p class="sec-sub">کلون کرو۔ اسکرپٹ شاہد بن کے چلاؤ۔ روٹ بن کے ہرگز نکو۔</p>
+        <h2>Install</h2>
+        <p class="sec-sub">Clone karo, script chalao — Shahid ban ke! Root ban ke chalaya toh samjho gaye.</p>
       </div>
     </div>
     <div class="codeblock">
@@ -319,7 +336,7 @@ bash scripts/apply-hyprland-block.sh rhino-crm
 <span class="tok-c"># install an app-menu launcher</span>
 bash scripts/install-launcher.sh rhino-crm</pre>
     </div>
-    <p class="body muted">اپلائی اسکرپٹ ری لوڈ سے پہلے <code>Hyprland --verify-config</code> سے چیک کرتا۔ فیل ہوا تو بیک اپ واپس، کچھ بھی نہیں بدلتا۔ نئے کی بائنڈ اور ونڈو رول اگلے لاگ اِن پہ لگتے، ری لوڈ پہ نہیں۔</p>
+    <p class="body muted">Apply script pehle <code>Hyprland --verify-config</code> se check karta, phir reload. Fail hua toh backup wapas — jaise kuch hua hi nahi! Naye button aur window rule agle login pe aate, reload pe intezaar nakko.</p>
   </div>
 </section>
 
@@ -328,40 +345,40 @@ bash scripts/install-launcher.sh rhino-crm</pre>
 <section id="inside">
   <div class="wrap">
     <div class="sec-head">
-      <svg class="arch" viewBox="0 0 64 80" aria-hidden="true"><path d="M10 74 L10 38 Q10 22 32 10 Q54 22 54 38 L54 74 Z" fill="none" stroke="#d9a441" stroke-width="2"/><text x="32" y="52" text-anchor="middle" fill="#f2cd72" font-family="Amiri,serif" font-size="22">03</text></svg>
+      <svg class="arch" viewBox="0 0 64 80" aria-hidden="true"><path d="M10 74 L10 38 Q10 22 32 10 Q54 22 54 38 L54 74 Z" fill="none" stroke="#d9a441" stroke-width="2"/><text x="32" y="52" text-anchor="middle" fill="#f2cd72" font-family="Marcellus,serif" font-size="22">03</text></svg>
       <div>
-        <h2>اندر کیا ہے</h2>
-        <p class="sec-sub">پانچ فولڈر۔ ہر ایک کا ایک ہی کام۔</p>
+        <h2>Andar kya hai</h2>
+        <p class="sec-sub">Paanch folder. Har ek ka ek hi kaam.</p>
       </div>
     </div>
     <div class="cards">
       <div class="card">
         <h3><code>hyprland/</code></h3>
-        <p>گارڈ والے ہائپر لینڈ بلاک، لائیو کنفیگ میں جوڑتے۔ ہر بلاک دونوں طرف نشان لگا ہوا، دوبارہ چلائے تو صاف رہتا۔ SUPER+R سے سی آر ایم کھلتا؛ SUPER+C ہمیشہ کاپی ہی رہتا۔</p>
+        <p>Guard wale block — live config mein aaram se jodte. Har block ke dono taraf nishaan, taaki dobara chalao toh gadbad nakko. SUPER+R dabao, CRM haazir! Aur suno — SUPER+C ko haath lagaya toh khair nahi, woh hamesha copy hi rehta.</p>
       </div>
       <div class="card">
         <h3><code>launchers/</code></h3>
-        <p>ایپ مینیو کی <code>.desktop</code> فائلیں، <code>~/.local/share/applications</code> میں جاتیں۔ ہر ایپ کی ایک فائل، بلاک کے نام جیسی۔</p>
+        <p>App menu ki <code>.desktop</code> files — <code>~/.local/share/applications</code> mein jaa ke baithtin. Har app ki ek, naam block jaisa.</p>
       </div>
       <div class="card">
         <h3><code>scripts/</code></h3>
-        <p>ایک دفعہ چلنے والے سیٹ اپ اسکرپٹ۔ بلاک لگاؤ، لانچر بٹھاؤ۔ بیک اپ اور چیک کے ساتھ۔ شاہد بن کے چلاؤ، sudo نکو۔</p>
+        <p>One-time setup script. Block lagao, launcher bithao, kaam khatam. Backup aur check saath mein free! Shahid ban ke chalao, sudo ka naam bhi nakko.</p>
       </div>
       <div class="card">
         <h3><code>docs/</code></h3>
-        <p>سیدھی سادھی زبان میں گائیڈ: روز کا آپریٹنگ گائیڈ اور سیف کمانڈ۔ صرف مینٹینر واسطے نہیں، جو کی بورڈ پہ بیٹھا اس واسطے۔</p>
+        <p>Bilkul seedhi zubaan mein guide — roz ka hisaab aur safe command. Jo keyboard pe baitha, uski samajh mein aaye aisa.</p>
       </div>
       <div class="card">
         <h3><code>apps/</code></h3>
-        <p>چارمینار پہ کیا لگا ہوا اور اصل ریپو کہاں ہیں — اس کا حساب۔ ایپس خود یہاں نہیں، ان کے پتے ہیں۔</p>
+        <p>Charminar pe kya kya laga hai aur asal repo kahaan hain — poora hisaab-kitaab. Apps khud yahaan nahi miyaan, sirf unke pate!</p>
       </div>
     </div>
     <div class="nothere">
-      <h3>یہاں کیا نہیں ہے</h3>
+      <h3>Yahaan kya nahi hai</h3>
       <ul>
-        <li>سی آر ایم کا سورس کوڈ — وہ <code>aska-digital/rhino-crm</code> میں ہے، <code>/home/muse/crm-os/</code> پہ لگا ہوا۔</li>
-        <li>شاہد کا پرسنل ڈیٹا، سی آر ایم ڈیٹا بیس، بیک اپ، پاسورڈ — کچھ بھی نہیں۔</li>
-        <li>اسٹاک اومارکی کی کوئی چیز نہیں — صرف اپنا لیئر۔</li>
+        <li>CRM ka source code? Woh <code>aska-digital/rhino-crm</code> mein hai miyaan, yahaan dhoondna nakko!</li>
+        <li>Shahid ka personal data, database, backup, password — ye sab yahaan nahi, aur achha hi hai!</li>
+        <li>Stock Omarchy ki cheez? Zero. Sirf apna layer.</li>
       </ul>
     </div>
   </div>
@@ -372,17 +389,17 @@ bash scripts/install-launcher.sh rhino-crm</pre>
 <section id="rules">
   <div class="wrap">
     <div class="sec-head">
-      <svg class="arch" viewBox="0 0 64 80" aria-hidden="true"><path d="M10 74 L10 38 Q10 22 32 10 Q54 22 54 38 L54 74 Z" fill="none" stroke="#d9a441" stroke-width="2"/><text x="32" y="52" text-anchor="middle" fill="#f2cd72" font-family="Amiri,serif" font-size="22">04</text></svg>
+      <svg class="arch" viewBox="0 0 64 80" aria-hidden="true"><path d="M10 74 L10 38 Q10 22 32 10 Q54 22 54 38 L54 74 Z" fill="none" stroke="#d9a441" stroke-width="2"/><text x="32" y="52" text-anchor="middle" fill="#f2cd72" font-family="Marcellus,serif" font-size="22">04</text></svg>
       <div>
-        <h2>اصول</h2>
-        <p class="sec-sub">چار اصول۔ یہ چلتی مشین کو بچاتے۔</p>
+        <h2>Usool</h2>
+        <p class="sec-sub">Chaar usool. Inko follow karo, machine khush rahegi.</p>
       </div>
     </div>
     <ol class="rules">
-      <li><p><b>چلتا ہوا سی آر ایم بند نکو۔</b> <code>/home/muse/crm-os</code> کا سرور <code>127.0.0.1:8741</code> پہ چلتا رہنا چاہیے۔ کیا سیف ہے، آپریٹنگ گائیڈ بتاتا۔</p></li>
-      <li><p><b>ہائپر لینڈ چینج گارڈ والے طریقے سے۔</b> پرانا بلاک پہلے نکالو، نیا جوڑو، <code>Hyprland --verify-config</code> سے چیک کرو، بیک اپ رکھو۔</p></li>
-      <li><p><b>چارمینار پہ شاہد کے رہتے ٹیسٹ کرو۔</b> ریبوٹ اور ریسٹارٹ ان کی مرضی، ہماری نہیں۔</p></li>
-      <li><p><b>چھوٹا رکھو۔</b> یہاں صرف کنفیگ، اومارکی میں پیچ کبھی نہیں۔ بڑا کام نکلا تو پہلے شاہد میاں سے بات۔</p></li>
+      <li><p><b>Chalta hua CRM band kiya toh... nakko miyaan!</b> <code>/home/muse/crm-os</code> ka server <code>127.0.0.1:8741</code> pe chalta rehna chahiye. Doubt hai toh operating guide padho.</p></li>
+      <li><p><b>Hyprland change ka sahi tareeqa:</b> purana block pehle bahar, naya andar, <code>Hyprland --verify-config</code> se check, backup jeb mein.</p></li>
+      <li><p><b>Testing Charminar pe, Shahid ke saamne.</b> Reboot ka button unke haath mein, hamare nahi!</p></li>
+      <li><p><b>Chhota rakho, lamba na kheencho.</b> Yahaan sirf config chalta. Omarchy mein patch maarne ka khayaal bhi aaya toh pehle Shahid miyaan se baat!</p></li>
     </ol>
   </div>
 </section>
@@ -393,11 +410,11 @@ bash scripts/install-launcher.sh rhino-crm</pre>
   <div class="wrap">
     <div class="source-panel">
       <div class="sec-head" style="justify-content:center">
-        <svg class="arch" viewBox="0 0 64 80" aria-hidden="true"><path d="M10 74 L10 38 Q10 22 32 10 Q54 22 54 38 L54 74 Z" fill="none" stroke="#d9a441" stroke-width="2"/><text x="32" y="52" text-anchor="middle" fill="#f2cd72" font-family="Amiri,serif" font-size="22">05</text></svg>
+        <svg class="arch" viewBox="0 0 64 80" aria-hidden="true"><path d="M10 74 L10 38 Q10 22 32 10 Q54 22 54 38 L54 74 Z" fill="none" stroke="#d9a441" stroke-width="2"/><text x="32" y="52" text-anchor="middle" fill="#f2cd72" font-family="Marcellus,serif" font-size="22">05</text></svg>
       </div>
-      <h2>سورس</h2>
-      <p>ہائیڈرو او ایس ہائیڈرو ٹیم سنبھالتی، چارمینار واسطے۔ ریپو میں پورا لیئر ہے: بلاک، لانچر، اسکرپٹ، گائیڈ، اور پن اومارکی ورژن۔</p>
-      <a class="btn btn-gold" href="https://github.com/aska-digital/hydro-os">گٹ ہب پہ دیکھو</a>
+      <h2>Source</h2>
+      <p>hydro-os — hydro-team ki mehnat, Charminar ki shaan! Repo mein poora saamaan hai: block, launcher, script, guide, pin version.</p>
+      <a class="btn btn-gold" href="https://github.com/aska-digital/hydro-os">GitHub pe chalo</a>
     </div>
   </div>
 </section>
@@ -406,9 +423,9 @@ bash scripts/install-launcher.sh rhino-crm</pre>
   <div class="wrap">
     <span class="fbrand">
       <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><g stroke="#d9a441" stroke-width="2"><rect x="7" y="7" width="18" height="18"/><rect x="7" y="7" width="18" height="18" transform="rotate(45 16 16)"/></g><circle cx="16" cy="16" r="2.6" fill="#d9a441"/></svg>
-      ہائیڈرو او ایس
+      hydro-os
     </span>
-    <p>اسکا ڈیجیٹل · چارمینار واسطے ہائیڈرو ٹیم کی طرف سے</p>
+    <p>aska-digital · Charminar ke liye hydro-team ki taraf se, mohabbat ke saath</p>
   </div>
 </footer>
 
