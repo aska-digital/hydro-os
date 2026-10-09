@@ -2,6 +2,7 @@
 
 ## Open the CRM
 Press SUPER+R, or open "Rhino CRM" from the app menu. It opens on workspace 9.
+After a config change, SUPER+R and the workspace-9 rule take effect on the next login, not immediately.
 
 ## Record a call
 1. Find the company in the Leads list.
