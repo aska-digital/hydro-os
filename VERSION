@@ -1,0 +1,4 @@
+omarchy 4.0.4
+kernel 7.2.5-3-omarchy
+pinned: 2026-10-09
+note: update this file whenever Omarchy is upgraded; see docs/hygiene.md
