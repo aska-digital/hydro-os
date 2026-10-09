@@ -117,7 +117,7 @@ ul.tight li::marker{color:var(--gold)}
 .codeblock .bar span{margin-left:auto;font-size:.75rem;color:var(--dim);letter-spacing:.08em;font-family:Inter,sans-serif}
 .codeblock pre{padding:18px 20px;overflow-x:auto;font-size:.92rem;line-height:1.7;text-align:left;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--ivory)}
-.codeblock .copy{position:absolute;top:8px;right:12px;background:transparent;
+.codeblock .copy{position:static;flex:none;margin-left:10px;background:transparent;
   border:1px solid var(--line);color:var(--muted);border-radius:4px;font-size:.75rem;
   padding:4px 12px;cursor:pointer;font-family:Inter,sans-serif}
 .codeblock .copy:hover{color:var(--gold-bright);border-color:var(--gold)}
@@ -303,15 +303,13 @@ footer p{color:var(--dim);font-size:.95rem;margin-right:auto}
       </div>
     </div>
     <div class="codeblock">
-      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>terminal</span></div>
-      <button class="copy" data-copy="c1">Copy</button>
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>terminal</span><button class="copy" data-copy="c1">Copy</button></div>
       <pre id="c1"><span class="tok-c"># get the layer</span>
 git clone https://github.com/aska-digital/hydro-os.git
 cd hydro-os</pre>
     </div>
     <div class="codeblock">
-      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>terminal</span></div>
-      <button class="copy" data-copy="c2">Copy</button>
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>terminal</span><button class="copy" data-copy="c2">Copy</button></div>
       <pre id="c2"><span class="tok-c"># apply a Hyprland block: removes the old block first,</span>
 <span class="tok-c"># backs up, verifies, restores on failure</span>
 bash scripts/apply-hyprland-block.sh rhino-crm
