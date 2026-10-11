@@ -1,0 +1,20 @@
+# Standing Claude Code session with Remote Control, so the Claude app on the
+# phone can drive charminar. Install: copy to ~/.config/systemd/user/ and run
+#   systemctl --user enable --now jarvis-remote.service
+# Needs Remote Control enabled for the account (see phone.md).
+[Unit]
+Description=Jarvis remote-control session (Claude Code) for the phone app
+After=graphical-session.target
+
+[Service]
+Type=forking
+Environment=HOME=%h
+WorkingDirectory=%h/.local/share/jarvis/session
+ExecStartPre=/bin/sh -c 'mkdir -p %h/.local/share/jarvis/session'
+ExecStart=%h/.local/bin/jarvis-remote start
+ExecStop=%h/.local/bin/jarvis-remote stop
+Restart=on-failure
+RestartSec=20
+
+[Install]
+WantedBy=default.target

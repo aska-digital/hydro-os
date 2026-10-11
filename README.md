@@ -17,6 +17,7 @@ machine. Not a fork — stock Omarchy underneath, our changes tracked here.
 | `scripts/`   | One-time setup scripts. Run as Shahid (no sudo), never as root. |
 | `docs/`      | Plain-language guides: daily use, safe hygiene commands. |
 | `apps/`      | Notes on the apps deployed on charminar and where their real repos live. |
+| `jarvis/`    | The voice assistant: push-to-talk, speech recognition, Claude as the brain, a fixed list of safe actions. See `jarvis/README.md`. |
 
 ## What does NOT live here
 

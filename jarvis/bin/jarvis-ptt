@@ -1,0 +1,52 @@
+#!/bin/bash
+# jarvis-ptt start|stop|toggle|cancel — push-to-talk control for Jarvis.
+# Hold the talk key: "start" on press, "stop" on release. "toggle" is for a
+# menu click: first click starts, second click stops.
+set -u
+J="$HOME/.local/share/jarvis"
+RUN="${XDG_RUNTIME_DIR:-/tmp}/jarvis"
+mkdir -p "$RUN"
+PID="$RUN/rec.pid"
+WAV="$RUN/rec.wav"
+
+osd() { omarchy-osd -i "$1" -m "$2" -d "${3:-1500}" >/dev/null 2>&1 & }
+beep() { [ -f "$J/sounds/$1.wav" ] && pw-play "$J/sounds/$1.wav" >/dev/null 2>&1 & }
+
+recording() { [ -f "$PID" ] && kill -0 "$(cat "$PID")" 2>/dev/null; }
+
+start() {
+  recording && exit 0
+  # Stop any reply still being spoken, so it is not recorded.
+  pkill -f "/jarvis/say-" 2>/dev/null
+  rm -f "$WAV"
+  beep start
+  osd "󰍬" "Listening…" 60000
+  pw-record --rate 16000 --channels 1 --format s16 "$WAV" >/dev/null 2>&1 &
+  echo $! > "$PID"
+}
+
+stop() {
+  recording || { rm -f "$PID"; exit 0; }
+  pid=$(cat "$PID"); rm -f "$PID"
+  kill -INT "$pid" 2>/dev/null
+  for _ in 1 2 3 4 5 6 7 8 9 10; do kill -0 "$pid" 2>/dev/null || break; sleep 0.1; done
+  kill "$pid" 2>/dev/null
+  beep stop
+  osd "󰭻" "Thinking…" 6000
+  setsid -f jarvis-ask --audio "$WAV" >/dev/null 2>&1
+}
+
+cancel() {
+  recording && kill "$(cat "$PID")" 2>/dev/null
+  rm -f "$PID" "$WAV"
+  pkill -f "/jarvis/say-" 2>/dev/null
+  osd "󰍭" "Cancelled" 1200
+}
+
+case "${1:-toggle}" in
+  start) start ;;
+  stop) stop ;;
+  cancel) cancel ;;
+  toggle) if recording; then stop; else start; fi ;;
+  *) echo "usage: jarvis-ptt start|stop|toggle|cancel" >&2; exit 1 ;;
+esac

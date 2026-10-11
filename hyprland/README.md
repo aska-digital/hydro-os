@@ -22,9 +22,9 @@ copy — never rebind it).
 | Block | Target file | What it does |
 |-------|-------------|--------------|
 | `rhino-crm.lua` | `hyprland.lua` | Starts the CRM at login, SUPER+R, workspace 9. |
-| `simple-keys.lua` | `bindings.lua` | The complete key set: SUPER+1..5 apps, SUPER+9/R CRM, menu, close, lock, screenshot, copy/paste, hardware keys, lid switch. Omarchy's defaults are off. |
+| `simple-keys.lua` | `bindings.lua` | The complete key set: SUPER+1..5 apps, SUPER+9/R CRM, menu, close, lock, screenshot, copy/paste, hardware keys, lid switch, Jarvis (Caps Lock / F9 hold, SUPER+J chat). Omarchy's defaults are off. |
 | `simple-autostart.lua` | `autostart.lua` | Opens WhatsApp a few seconds after login. |
-| `simple-input.lua` | `input.lua` | Keyboard layouts us, Arabic, Urdu; Left Alt + Right Alt switches. |
+| `simple-input.lua` | `input.lua` | Keyboard layouts us, Arabic, Urdu; Left Alt + Right Alt switches. Caps Lock sends Menu (the Jarvis talk key). |
 | `simple-windows.lua` | `hyprland.lua` | One app per workspace (1 to 5, CRM on 9), always maximized, never floating. |
 
 A block's first line may say `-- target: ~/.config/hypr/<file>.lua`;

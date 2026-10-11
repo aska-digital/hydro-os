@@ -1,0 +1,20 @@
+#!/bin/bash
+# jarvis-remote start|stop|attach — a standing Claude Code session with Remote
+# Control, so the Claude app on Shahid's phone can drive this machine.
+# Needs Remote Control enabled for the account (see phone.md).
+set -u
+J="$HOME/.local/share/jarvis"
+RUN="${XDG_RUNTIME_DIR:-/tmp}/jarvis"
+mkdir -p "$J/session" "$RUN"
+case "${1:-start}" in
+  start)
+    tmux has-session -t jarvis 2>/dev/null && exit 0
+    cd "$J/session" || exit 1
+    exec tmux new-session -d -s jarvis "exec claude --remote-control charminar --model sonnet --name Jarvis \
+      --append-system-prompt \"\$(cat '$J/prompt.md')\" \
+      --allowedTools 'Bash(jarvis-do:*)' 'Read(//$RUN/**)' WebSearch WebFetch \
+      --disallowedTools Write Edit NotebookEdit Agent Workflow" ;;
+  stop) tmux kill-session -t jarvis 2>/dev/null ;;
+  attach) exec tmux attach -t jarvis ;;
+  *) echo "usage: jarvis-remote start|stop|attach" >&2; exit 1 ;;
+esac

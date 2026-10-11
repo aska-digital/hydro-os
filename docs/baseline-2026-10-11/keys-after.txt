@@ -7,6 +7,8 @@ SUPER CTRL + V                      → Clipboard manager
 PRINT                               → Screenshot
 SUPER + COMMA                       → Dismiss notification
 ALT + TAB                           → Next window
+F9                                  → Talk to Jarvis (hold F9)
+MENU                                → Talk to Jarvis (hold Caps Lock)
 SHIFT ALT + D                       → Download Video from Web App
 SHIFT ALT + L                       → Copy URL from Web App
 SUPER + 1                           → WhatsApp
@@ -17,9 +19,11 @@ SUPER + 5                           → Chromium
 SUPER + 9                           → Rhino CRM
 SUPER CTRL + L                      → Lock screen
 SUPER + ESCAPE                      → Lock or shut down
+SUPER + J                           → Jarvis typed chat
 SUPER + K                           → Show these keys
 SUPER + R                           → Rhino CRM
 SUPER SHIFT + F                     → Files
+SUPER SHIFT + J                     → Jarvis stop
 SUPER + SPACE                       → Menu
 ALT + XF86AudioLowerVolume          → Volume down precise
 ALT + XF86AudioPlay                 → Next track
