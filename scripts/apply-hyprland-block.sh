@@ -11,6 +11,10 @@ CONF_DIR="$HOME/.config/hypr"
 LUA="$CONF_DIR/hyprland.lua"
 CONF="$CONF_DIR/hyprland.conf"
 if [ -f "$LUA" ]; then TARGET="$LUA"; else TARGET="$CONF"; fi
+# A block may name another file in ~/.config/hypr with a first-line header:
+#   -- target: ~/.config/hypr/bindings.lua
+HDR=$(sed -n '1s/^-- target: *\(~\/\.config\/hypr\/[a-z]*\.lua\).*/\1/p' "$SRC")
+[ -n "$HDR" ] && TARGET="${HDR/#\~/$HOME}"
 MARK="$NAME >>>"
 python3 - "$TARGET" "$MARK" <<'PYEOF'
 import sys
@@ -29,7 +33,7 @@ for ln in lines:
 open(p, "w").writelines(out)
 PYEOF
 cp "$TARGET" "$TARGET.bak-$NAME"
-cat "$SRC" >> "$TARGET"
+sed -n "/$MARK/,\$p" "$SRC" >> "$TARGET"  # guarded part only, not the header
 if Hyprland --verify-config -c "$TARGET" >/tmp/hydro-block-verify.out 2>&1; then
   hyprctl reload >/dev/null 2>&1 || true
   echo "applied $NAME, config reloaded"
