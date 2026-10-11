@@ -1,8 +1,13 @@
 # Daily guide — charminar
 
+## The keys
+See `key-card.md`: SUPER+1 WhatsApp, 2 Gmail, 3 Drive, 4 Meet, 5 Chromium,
+SUPER+R (or 9) Rhino CRM, SUPER+Space menu, SUPER+W close. Each app has its
+own workspace and opens full size. Omarchy's other shortcuts are turned off.
+
 ## Open the CRM
-Press SUPER+R, or open "Rhino CRM" from the app menu. It opens on workspace 9.
-After a config change, SUPER+R and the workspace-9 rule take effect on the next login, not immediately.
+Press SUPER+R (or SUPER+9), or pick "Rhino CRM" from the menu (SUPER+Space).
+It opens full size on workspace 9.
 
 ## Record a call
 1. Find the company in the Leads list.

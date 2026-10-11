@@ -23,8 +23,8 @@
         },
         {
           "id": "omarchy.clock",
-          "format": "dddd HH:mm",
-          "formatAlt": "d MMMM 'W'ww yyyy",
+          "format": "dddd d MMMM   h:mm AP",
+          "formatAlt": "d MMMM yyyy",
           "verticalFormat": "HH\n\u2014\nmm"
         },
         {
@@ -32,17 +32,11 @@
         },
         {
           "id": "omarchy.weather"
-        },
-        {
-          "id": "omarchy.system-update"
         }
       ],
       "right": [
         {
           "id": "omarchy.tray"
-        },
-        {
-          "id": "omarchy.agents"
         },
         {
           "id": "omarchy.bluetooth"
@@ -52,9 +46,6 @@
         },
         {
           "id": "omarchy.audio"
-        },
-        {
-          "id": "omarchy.monitor"
         },
         {
           "id": "omarchy.power"

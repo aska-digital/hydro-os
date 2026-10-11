@@ -1,0 +1,8 @@
+#!/bin/bash
+# Open a mailto: link as a new Gmail message in the Gmail web app window.
+# Installed to ~/.local/bin/gmail-mailto by scripts/tidy-launchers.sh.
+url="$1"
+if [[ $url =~ ^mailto: ]]; then
+  exec omarchy-launch-webapp "https://mail.google.com/mail/?extsrc=mailto&url=$url"
+fi
+exec omarchy-launch-webapp "https://mail.google.com"
