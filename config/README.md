@@ -10,6 +10,7 @@ knobs (not guarded blocks), so we track the whole file. Copy back with:
 | File | What we changed |
 |------|-----------------|
 | `hypr/monitors.lua` | 15.6" 1080p panel: monitor scale 1.5, GDK_SCALE 1 (was auto / 2). |
+| (theme, not a file) | Theme is Flexoki Light, set by `omarchy theme set flexoki-light` in `scripts/apply-simple-desktop.sh`. Omarchy keeps it in `~/.local/state/omarchy/current/`, so there is nothing to copy. Previous theme was Matte Black. |
 | `omarchy/shell.toml` | Written by `omarchy display text size 16` (shell/GTK/terminal text 16 px). |
 | `omarchy/shell.json` | Idle: screensaver after 15 min, lock after 60 min (was 2.5 / 5 min). Bar: no agents, update or monitor widgets; clock shows day, date and 12-hour time. |
 | `omarchy/extensions/omarchy-menu.jsonc` | Main menu: Apps, Rhino CRM, Keys, About, System. Install, Remove, Update, Setup, Style, Learn, Trigger hidden. |

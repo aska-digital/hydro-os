@@ -26,6 +26,7 @@ cp "$HERE/../config/omarchy/extensions/omarchy-menu.jsonc" "$HOME/.config/omarch
 Hyprland --verify-config -c "$H" >/dev/null && hyprctl reload >/dev/null
 
 # 4. Commands.
+omarchy theme set flexoki-light   # light theme: daylight readability
 omarchy display text size 16
 omarchy-toggle-enabled suspend-off || omarchy toggle suspend
 bash "$HERE/install-webapps.sh"
