@@ -19,6 +19,8 @@ actions. It never touches the CRM server, packages, or system config.
 | `bin/jarvis-say` | Text to speech. Online neural voices (English, Urdu, Arabic) through edge-tts; local Piper voices (English, Arabic) when offline. |
 | `bin/jarvis-chat` | Opens Claude Code interactively in a `jarvis` window with the same prompt and the same `jarvis-do` hands. |
 | `prompt.md` | Who Jarvis is, how to answer, what it may do. `prompt-voice.md` adds the JSON reply format used in voice mode. |
+| `session-CLAUDE.md` | Standing context, installed as `~/.local/share/jarvis/session/CLAUDE.md` and loaded by every Jarvis session (voice, chat, phone): who Shahid is, his territory, how he phrases requests and which CRM lookup each one means, the CRM fields, how to write in his voice. |
+| `jarvis-remote`, `jarvis-remote.service` | The standing Remote Control session for the phone app (see `phone.md`). |
 | `voxtype.toml` | Speech recognition settings: Whisper base (multilingual, auto language). |
 | `install.sh` | Puts it all in place: symlinks in ~/.local/bin, Python venv (uv) with piper-tts and edge-tts, voice models, Whisper model, beeps. |
 

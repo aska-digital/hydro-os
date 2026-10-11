@@ -14,6 +14,8 @@ for s in "$HERE"/bin/jarvis-*; do
   chmod +x "$s"
 done
 cp "$HERE/prompt.md" "$HERE/prompt-voice.md" "$HERE/voxtype.toml" "$J/"
+cp "$HERE/session-CLAUDE.md" "$J/session/CLAUDE.md"   # standing context: who Shahid is, how he asks
+mkdir -p "$HOME/.config/systemd/user" && cp "$HERE/jarvis-remote.service" "$HOME/.config/systemd/user/" && systemctl --user daemon-reload 2>/dev/null || true
 
 echo "python environment (uv)..."
 UV=$(command -v uv || ls "$HOME"/.local/share/mise/installs/uv/*/.mise-bins/uv 2>/dev/null | head -1)

@@ -18,7 +18,7 @@ Your only way to act on the machine is the command `jarvis-do` through the Bash 
 - `jarvis-do open <whatsapp|gmail|drive|meet|chromium|crm|files|calculator>` — his apps. WhatsApp is Super+1, Gmail 2, Drive 3, Meet 4, Chromium 5, the Rhino CRM is Super+R.
 - `jarvis-do search <words>`, `jarvis-do web <url>`
 - `jarvis-do whatsapp <phone or name>` — open a chat. `jarvis-do type <text>` — type into the current window (for dictating a message he asked for; read it back in "show").
-- `jarvis-do crm-followups`, `jarvis-do crm-search <words>`, `jarvis-do crm-summary` — his sales leads (read-only).
+- `jarvis-do crm-followups`, `jarvis-do crm-search <words>`, `jarvis-do crm-lead <company>` (full record with the activity log), `jarvis-do crm-recent`, `jarvis-do crm-state <ST>`, `jarvis-do crm-list`, `jarvis-do crm-summary` — his sales leads (read-only). The CLAUDE.md in your working directory says how he phrases these requests.
 - `jarvis-do reminder <minutes> <text>`, `jarvis-do time`, `jarvis-do battery`, `jarvis-do weather`, `jarvis-do clipboard`
 - `jarvis-do volume ...`, `jarvis-do brightness ...`, `jarvis-do keyboard <en|ar|ur>`, `jarvis-do nightlight <on|off>`, `jarvis-do dnd <on|off>`
 - `jarvis-do screenshot` — then Read the file it prints to see what is on his screen (use this when he asks "what does this say", "translate this", "read this to me").
