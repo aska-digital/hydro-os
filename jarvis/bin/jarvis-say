@@ -1,0 +1,38 @@
+#!/bin/bash
+# jarvis-say "text" — speak text aloud.
+# Picks the voice from the script: Urdu, Arabic, otherwise English.
+# Online neural voice first (edge-tts, about one second), local Piper voice
+# when offline. One utterance at a time (flock), so replies never overlap.
+set -u
+J="$HOME/.local/share/jarvis"
+RUN="${XDG_RUNTIME_DIR:-/tmp}/jarvis"
+mkdir -p "$RUN"
+
+text="$*"
+[ -n "$text" ] || exit 0
+
+lang=$(printf '%s' "$text" | python3 -I -c '
+import sys
+t = sys.stdin.read()
+urdu = set("ےٹڈڑںھہکگچپۓۂ")
+if any(c in urdu for c in t): print("ur")
+elif any("؀" <= c <= "ۿ" for c in t): print("ar")
+else: print("en")')
+
+case $lang in
+  ur) voice="ur-PK-AsadNeural"; piper="ar_JO-kareem-medium" ;;
+  ar) voice="ar-SA-HamedNeural"; piper="ar_JO-kareem-medium" ;;
+  *)  voice="en-GB-RyanNeural";  piper="en_US-lessac-medium" ;;
+esac
+
+out="$RUN/say-$$.mp3"
+if timeout 12 "$J/venv/bin/edge-tts" --voice "$voice" --text "$text" --write-media "$out" >/dev/null 2>&1 && [ -s "$out" ]; then
+  flock "$RUN/speak.lock" mpv --no-video --really-quiet --no-config "$out" >/dev/null 2>&1
+else
+  rm -f "$out"
+  out="$RUN/say-$$.wav"
+  if printf '%s' "$text" | "$J/venv/bin/python" -m piper -m "$J/voices/$piper.onnx" -f "$out" >/dev/null 2>&1 && [ -s "$out" ]; then
+    flock "$RUN/speak.lock" pw-play "$out" >/dev/null 2>&1
+  fi
+fi
+rm -f "$out"

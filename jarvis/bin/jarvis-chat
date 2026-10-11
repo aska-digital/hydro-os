@@ -1,0 +1,13 @@
+#!/bin/bash
+# jarvis-chat — open Jarvis as a typed conversation in its own window
+# (workspace 6, full size). Same brain and same hands as the voice mode.
+set -u
+J="$HOME/.local/share/jarvis"
+mkdir -p "$J/session"
+if hyprctl clients -j 2>/dev/null | jq -e '.[] | select(.class == "jarvis")' >/dev/null; then
+  exec omarchy-launch-or-focus '^jarvis$' 'true'
+fi
+exec setsid -f foot --app-id jarvis --title "Jarvis" -e bash -lc "cd '$J/session' && exec claude --model sonnet --name Jarvis \
+  --append-system-prompt \"\$(cat '$J/prompt.md')\" \
+  --allowedTools 'Bash(jarvis-do:*)' 'Read(//${XDG_RUNTIME_DIR:-/tmp}/jarvis/**)' WebSearch WebFetch \
+  --disallowedTools Write Edit NotebookEdit Agent Workflow"

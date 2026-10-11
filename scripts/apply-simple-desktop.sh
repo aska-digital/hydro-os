@@ -31,4 +31,5 @@ omarchy display text size 16
 omarchy-toggle-enabled suspend-off || omarchy toggle suspend
 bash "$HERE/install-webapps.sh"
 bash "$HERE/tidy-launchers.sh"
+bash "$HERE/../jarvis/install.sh"
 echo "done. GDK_SCALE needs a fresh login to reach every app."

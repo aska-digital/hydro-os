@@ -1,0 +1,88 @@
+#!/usr/bin/python3 -I
+"""jarvis-intent "spoken text"
+Fast path for the commands Shahid says most. Prints two lines, the jarvis-do
+command and the spoken confirmation, and exits 0. Exits 1 when the request
+needs the full assistant (Claude)."""
+import re
+import sys
+
+text = " ".join(sys.argv[1:]).strip().lower()
+text = re.sub(r"[^\w\s%+-]", " ", text)
+text = re.sub(r"\s+", " ", text).strip()
+if not text:
+    sys.exit(1)
+
+APPS = {
+    "whatsapp": ("open whatsapp", "WhatsApp"),
+    "whats app": ("open whatsapp", "WhatsApp"),
+    "gmail": ("open gmail", "Gmail"),
+    "email": ("open gmail", "Gmail"),
+    "mail": ("open gmail", "Gmail"),
+    "drive": ("open drive", "Google Drive"),
+    "google drive": ("open drive", "Google Drive"),
+    "meet": ("open meet", "Google Meet"),
+    "google meet": ("open meet", "Google Meet"),
+    "chromium": ("open chromium", "Chromium"),
+    "chrome": ("open chromium", "Chromium"),
+    "browser": ("open chromium", "Chromium"),
+    "internet": ("open chromium", "Chromium"),
+    "crm": ("open crm", "the CRM"),
+    "rhino": ("open crm", "the CRM"),
+    "rhino crm": ("open crm", "the CRM"),
+    "files": ("open files", "Files"),
+    "calculator": ("open calculator", "the calculator"),
+}
+
+def out(cmd, say):
+    print(cmd)
+    print(say)
+    sys.exit(0)
+
+# open / go to / show <app>
+m = re.match(r"^(?:please )?(?:open|launch|start|go to|goto|show|show me|switch to|take me to)(?: the| my)? (.+?)(?: please)?$", text)
+if m:
+    key = m.group(1).strip()
+    if key in APPS:
+        out(APPS[key][0], f"{APPS[key][1]}.")
+
+# bare app name
+if text in APPS:
+    out(APPS[text][0], f"{APPS[text][1]}.")
+
+if re.fullmatch(r"(?:please )?(?:close|close this|close the window|close window|close this window)(?: please)?", text):
+    out("close-window", "Closed.")
+
+if re.fullmatch(r"(?:please )?(?:lock|lock the screen|lock screen|lock the computer|lock computer)(?: please)?", text):
+    out("lock", "Locking.")
+
+if re.search(r"\b(shut ?down|turn off the computer|switch off the computer|restart the computer|reboot|log ?out|sign out)\b", text):
+    out("system-menu", "Here is the system menu. Pick what you want.")
+
+if re.search(r"\b(volume|sound)\b", text):
+    if re.search(r"\b(up|louder|higher|increase|more)\b", text): out("volume up", "Louder.")
+    if re.search(r"\b(down|lower|quieter|decrease|less|softer)\b", text): out("volume down", "Quieter.")
+    if re.search(r"\b(unmute|back on)\b", text): out("volume unmute", "Sound is back.")
+    if re.search(r"\b(mute|off|silent|silence)\b", text): out("volume mute", "Muted.")
+if re.fullmatch(r"(?:please )?(mute|unmute)(?: please)?", text):
+    out(f"volume {text.split()[-1] if text.split()[-1] in ('mute','unmute') else text.split()[0]}", "Done.")
+
+if re.search(r"\b(brightness|screen|display)\b", text) and not re.search(r"\b(what|read|translate|lock)\b", text):
+    if re.search(r"\b(up|brighter|higher|increase|more)\b", text): out("brightness up", "Brighter.")
+    if re.search(r"\b(down|dimmer|darker|lower|decrease|less)\b", text): out("brightness down", "Dimmer.")
+
+if re.fullmatch(r"(?:please )?(?:take a |take )?(?:screenshot|screen shot)(?: please)?", text):
+    out("screenshot", "Screenshot taken.")
+
+if re.fullmatch(r"(?:what time is it|what s the time|what is the time|time|the time)(?: now)?(?: please)?", text):
+    out("time", "")
+
+if re.fullmatch(r"(?:what s the battery|battery|how much battery(?: is left)?|battery level)(?: please)?", text):
+    out("battery", "")
+
+m = re.search(r"\b(?:keyboard|typing|type in|switch to|language)\b.*\b(english|arabic|urdu)\b", text) or re.fullmatch(r"(english|arabic|urdu)(?: keyboard)?", text)
+if m:
+    lang = m.group(1)
+    code = {"english": "en", "arabic": "ar", "urdu": "ur"}[lang]
+    out(f"keyboard {code}", f"{lang.capitalize()} keyboard.")
+
+sys.exit(1)

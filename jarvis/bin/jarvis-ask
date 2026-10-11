@@ -1,0 +1,101 @@
+#!/bin/bash
+# jarvis-ask --audio <wav> | --text "<request>"
+# Turns a spoken or typed request into an answer: transcribe, try the fast
+# path for everyday commands, otherwise ask Claude (with jarvis-do as its only
+# hands), then show the reply on screen and speak it.
+set -u
+J="$HOME/.local/share/jarvis"
+RUN="${XDG_RUNTIME_DIR:-/tmp}/jarvis"
+STATE="$HOME/.local/state/jarvis"
+mkdir -p "$RUN" "$STATE" "$J/session"
+LOG="$STATE/log.jsonl"
+
+show() { omarchy-notification-send -g "󰭻" -u "${3:-normal}" -t "${4:-15000}" "$1" "$2" >/dev/null 2>&1; }
+log() { python3 -I -c 'import json,sys,datetime; print(json.dumps({"t":datetime.datetime.now().isoformat(timespec="seconds"),"kind":sys.argv[1],"text":sys.argv[2],"reply":sys.argv[3]}, ensure_ascii=False))' "$1" "$2" "${3:-}" >> "$LOG"; }
+
+mode="${1:-}"; shift || true
+case "$mode" in
+  --audio)
+    wav="${1:?wav}"
+    # Shorter than half a second: the key was only tapped.
+    size=$(stat -c %s "$wav" 2>/dev/null || echo 0)
+    [ "$size" -gt 16000 ] || exit 0
+    text=$(voxtype -c "$J/voxtype.toml" transcribe "$wav" 2>/dev/null | grep -v '^\s*$' | tail -n 1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    ;;
+  --text) text="$*" ;;
+  *) echo "usage: jarvis-ask --audio <wav> | --text <request>" >&2; exit 1 ;;
+esac
+
+# Drop the wake word if he said one (Whisper often hears "Travis").
+text=$(printf '%s' "$text" | sed -E 's/^(hey|hi|hello|ok|okay)?[ ,]*(jarvis|travis|jervis|jarves)[ ,.!?]*//I; s/^[[:space:]]+//')
+
+# Whisper's noise outputs.
+case "${text,,}" in
+  ""|"[blank_audio]"|"(silence)"|"."|"you"|"thank you."|"thanks for watching!"|"[music]")
+    omarchy-osd -i "󰍭" -m "Nothing heard" -d 1500 >/dev/null 2>&1 &
+    exit 0 ;;
+esac
+
+show "You said" "$text" low 6000
+
+# Fast path: everyday commands without the model.
+if fast=$(jarvis-intent "$text"); then
+  cmd=$(printf '%s\n' "$fast" | sed -n 1p)
+  say=$(printf '%s\n' "$fast" | sed -n 2p)
+  # shellcheck disable=SC2086
+  result=$(jarvis-do $cmd 2>&1)
+  [ -n "$say" ] || say="$result"
+  show "Jarvis" "$result" normal 8000
+  log fast "$text" "$result"
+  jarvis-say "$say"
+  exit 0
+fi
+
+# Full assistant.
+sid_file="$STATE/session-$(date +%F)"
+ctx="[Now: $(date '+%A %d %B %Y, %I:%M %p'). Focused window: $(hyprctl activewindow -j 2>/dev/null | jq -r '(.class // "none") + " / " + (.title // "")' | head -c 120). Battery: $(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -1)%.]"
+system="$(cat "$J/prompt.md" "$J/prompt-voice.md")"
+
+args=(-p --model sonnet --fallback-model haiku --max-turns 10 --output-format json
+      --append-system-prompt "$system"
+      --allowedTools "Bash(jarvis-do:*)" "Read(//${RUN}/**)" "WebSearch" "WebFetch"
+      --disallowedTools "Write" "Edit" "NotebookEdit" "Agent" "Workflow"
+      --no-session-persistence)
+# Keep the thread for the day, so "and the second one?" still makes sense.
+if [ -s "$sid_file" ]; then
+  args=("${args[@]/--no-session-persistence}" --resume "$(cat "$sid_file")")
+else
+  sid=$(uuidgen); echo "$sid" > "$sid_file"
+  args=("${args[@]/--no-session-persistence}" --session-id "$sid")
+fi
+
+cd "$J/session" || exit 1
+out=$(timeout 120 claude "${args[@]}" "$ctx $text" 2>"$RUN/claude.err")
+rc=$?
+result=$(printf '%s' "$out" | jq -r '.result // empty' 2>/dev/null)
+
+if [ $rc -ne 0 ] || [ -z "$result" ]; then
+  # A dead session id or a hiccup: start a fresh thread next time.
+  rm -f "$sid_file"
+  show "Jarvis" "Sorry, I could not answer that just now." critical 8000
+  log error "$text" "rc=$rc $(head -c 300 "$RUN/claude.err")"
+  jarvis-say "Sorry, I could not answer that just now."
+  exit 1
+fi
+
+# The model answers with {"show": ..., "say": ...}; fall back to plain text.
+readarray -t parts < <(printf '%s' "$result" | python3 -I -c '
+import json,sys,re
+r=sys.stdin.read().strip()
+r=re.sub(r"^```(?:json)?\s*|\s*```$","",r)
+try:
+    d=json.loads(r); show=str(d.get("show") or d.get("say") or ""); say=str(d.get("say") or d.get("show") or "")
+except Exception:
+    show=r; say=re.sub(r"[*_#`>\[\]]","",r)
+print(show.replace("\n"," ⏎ ")); print(say.replace("\n"," "))')
+showtext="${parts[0]//⏎/$'\n'}"
+saytext="${parts[1]:-}"
+
+show "Jarvis" "$showtext" normal 20000
+log claude "$text" "$showtext"
+jarvis-say "$saytext"

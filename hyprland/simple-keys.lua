@@ -37,4 +37,11 @@ o.bind("SUPER + comma", "Dismiss notification", "omarchy-shell notifications dis
 -- Laptop lid: lock on close, fix displays on open (same as Omarchy's default).
 o.bind("switch:on:Lid Switch", nil, "omarchy-system-lid-close", { locked = true })
 o.bind("switch:off:Lid Switch", nil, "omarchy-hyprland-monitor-clamshell", { locked = true })
+-- Jarvis, the voice assistant. Hold Caps Lock (or F9) and speak; release to send.
+o.bind("MENU", "Talk to Jarvis (hold Caps Lock)", "jarvis-ptt start")
+o.bind("MENU", nil, "jarvis-ptt stop", { release = true })
+o.bind("F9", "Talk to Jarvis (hold F9)", "jarvis-ptt start")
+o.bind("F9", nil, "jarvis-ptt stop", { release = true })
+o.bind("SUPER + J", "Jarvis typed chat", "jarvis-chat")
+o.bind("SUPER + SHIFT + J", "Jarvis stop", "jarvis-ptt cancel")
 -- <<< simple-keys <<<

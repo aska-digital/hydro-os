@@ -1,0 +1,226 @@
+#!/bin/bash
+# jarvis-do <action> [args] — the only hands Jarvis has on this machine.
+# Every action here is safe to run by voice. Nothing here touches the CRM
+# server, sudo, packages, or system config. Prints a short result for Jarvis.
+set -u
+RUN="${XDG_RUNTIME_DIR:-/tmp}/jarvis"
+mkdir -p "$RUN"
+CRM="http://127.0.0.1:8741"
+
+usage() {
+  cat <<'EOF'
+jarvis-do actions:
+  open <whatsapp|gmail|drive|meet|chromium|crm|files|calculator|terminal>
+  web <url>                 open a web page in Chromium
+  search <words>            Google search in Chromium
+  whatsapp <phone|name>     open a WhatsApp chat (phone with country code, or a contact name)
+  type <text>               type text into the window he is looking at
+  say <text>                speak text aloud
+  notify <text>             show a notification
+  close-window              close the window he is looking at
+  workspace <1-9>           go to a workspace
+  window                    which window is focused
+  screenshot                take a screenshot, prints the file path (Jarvis can Read it)
+  volume <up|down|mute|unmute|0-100>
+  brightness <up|down|0-100>
+  keyboard <en|ar|ur>       switch keyboard language
+  nightlight <on|off>       warm screen colours
+  dnd <on|off>              silence notifications
+  reminder <minutes> <text> desktop reminder
+  reminders                 list reminders
+  time | battery | weather
+  clipboard                 what is in the clipboard
+  crm-followups             CRM leads with a next action due (today or overdue)
+  crm-search <words>        search CRM leads by company, contact, project, city
+  crm-summary               CRM counts by stage
+  crm-list                  every lead, one line each (company | contact | city, states | type | stage | next)
+  crm-lead <company>        one lead in full, with its activity log (what was discussed, when)
+  crm-recent [n]            the n most recently updated leads (default 10)
+  crm-state <ST>            leads covering a state, e.g. TX, TN, NC
+  lock                      lock the screen
+  system-menu               open the lock / log out / shut down menu (he confirms there)
+EOF
+}
+
+webapp() { setsid -f omarchy-launch-webapp "$1" >/dev/null 2>&1; }
+focus_or_launch_webapp() { setsid -f omarchy-launch-or-focus-webapp "$1" "$2" >/dev/null 2>&1; }
+
+crm_json() { curl -sf --max-time 5 "$CRM/api/leads"; }
+
+act="${1:-help}"; shift || true
+case "$act" in
+  help|--help|-h) usage ;;
+
+  open)
+    case "${1:-}" in
+      whatsapp)   focus_or_launch_webapp "WhatsApp" "https://web.whatsapp.com/"; echo "WhatsApp is open" ;;
+      gmail|mail|email) focus_or_launch_webapp "Gmail" "https://mail.google.com"; echo "Gmail is open" ;;
+      drive)      focus_or_launch_webapp "Drive" "https://drive.google.com"; echo "Google Drive is open" ;;
+      meet)       focus_or_launch_webapp "Meet" "https://meet.google.com"; echo "Google Meet is open" ;;
+      chromium|browser|chrome|internet) setsid -f omarchy-launch-or-focus '^chromium$' 'uwsm-app -- chromium' >/dev/null 2>&1; echo "Chromium is open" ;;
+      crm|rhino)  setsid -f /home/muse/crm-os/crm.sh >/dev/null 2>&1; echo "Rhino CRM is open" ;;
+      files|nautilus) setsid -f omarchy-launch-nautilus >/dev/null 2>&1; echo "Files is open" ;;
+      calculator) setsid -f uwsm-app -- omacalc >/dev/null 2>&1; echo "Calculator is open" ;;
+      terminal)   setsid -f omarchy-launch-terminal >/dev/null 2>&1; echo "Terminal is open" ;;
+      *) echo "unknown app: ${1:-}. Known: whatsapp gmail drive meet chromium crm files calculator terminal"; exit 1 ;;
+    esac ;;
+
+  web)
+    url="${1:?url}"; [[ $url =~ ^https?:// ]] || url="https://$url"
+    setsid -f uwsm-app -- chromium "$url" >/dev/null 2>&1; echo "opened $url" ;;
+
+  search)
+    q="$*"; [ -n "$q" ] || { echo "nothing to search"; exit 1; }
+    setsid -f uwsm-app -- chromium "https://www.google.com/search?q=$(python3 -I -c 'import sys,urllib.parse;print(urllib.parse.quote_plus(sys.argv[1]))' "$q")" >/dev/null 2>&1
+    echo "searching for: $q" ;;
+
+  whatsapp)
+    who="$*"; digits=$(printf '%s' "$who" | tr -cd '0-9')
+    if [ -n "$digits" ] && [ ${#digits} -ge 8 ]; then
+      webapp "https://web.whatsapp.com/send?phone=$digits"; echo "opened WhatsApp chat with +$digits"
+    elif [ -n "$who" ]; then
+      focus_or_launch_webapp "WhatsApp" "https://web.whatsapp.com/"
+      sleep 1.5; wtype -- "$who" 2>/dev/null
+      echo "WhatsApp is open with '$who' typed into the search box; he picks the chat"
+    else
+      focus_or_launch_webapp "WhatsApp" "https://web.whatsapp.com/"; echo "WhatsApp is open"
+    fi ;;
+
+  type)
+    t="$*"; [ -n "$t" ] || exit 1
+    wtype -- "$t" && echo "typed ${#t} characters" ;;
+
+  say) jarvis-say "$*" & echo "speaking" ;;
+  notify) omarchy-notification-send -g "󰭻" "Jarvis" "$*" >/dev/null 2>&1; echo "shown" ;;
+
+  close-window) hyprctl dispatch "hl.dsp.window.close()" >/dev/null 2>&1 || hyprctl dispatch killactive >/dev/null; echo "closed" ;;
+  workspace) n="${1:?n}"; hyprctl dispatch "hl.dsp.focus({ workspace = $n })" >/dev/null 2>&1 || hyprctl dispatch workspace "$n" >/dev/null; echo "on workspace $n" ;;
+  window) hyprctl activewindow -j | jq -r '"\(.class) — \(.title) (workspace \(.workspace.id))"' ;;
+
+  screenshot)
+    f="$RUN/screenshot-$(date +%H%M%S).png"; grim -o eDP-1 "$f" && echo "$f" ;;
+
+  volume)
+    case "${1:-}" in
+      up) omarchy-audio-output-volume raise >/dev/null ;;
+      down) omarchy-audio-output-volume lower >/dev/null ;;
+      mute) wpctl set-mute @DEFAULT_AUDIO_SINK@ 1 ;;
+      unmute) wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 ;;
+      [0-9]*) wpctl set-volume @DEFAULT_AUDIO_SINK@ "$(( ${1%\%} > 100 ? 100 : ${1%\%} ))%" ;;
+      *) echo "volume up|down|mute|unmute|0-100"; exit 1 ;;
+    esac
+    echo "volume: $(wpctl get-volume @DEFAULT_AUDIO_SINK@)" ;;
+
+  brightness)
+    case "${1:-}" in
+      up) omarchy-brightness-display +10% >/dev/null ;;
+      down) omarchy-brightness-display 10%- >/dev/null ;;
+      [0-9]*) omarchy-brightness-display "${1%\%}%" >/dev/null ;;
+      *) echo "brightness up|down|0-100"; exit 1 ;;
+    esac
+    echo "brightness: $(brightnessctl -m 2>/dev/null | cut -d, -f4)" ;;
+
+  keyboard)
+    case "${1:-}" in
+      en|english) i=0; name="English" ;; ar|arabic) i=1; name="Arabic" ;; ur|urdu) i=2; name="Urdu" ;;
+      *) echo "keyboard en|ar|ur"; exit 1 ;;
+    esac
+    hyprctl switchxkblayout all "$i" >/dev/null 2>&1; echo "keyboard: $name" ;;
+
+  nightlight)
+    case "${1:-}" in on) omarchy-toggle-enabled nightlight || omarchy-toggle nightlight ;; off) omarchy-toggle-enabled nightlight && omarchy-toggle nightlight ;; esac >/dev/null 2>&1
+    echo "nightlight ${1:-}" ;;
+  dnd)
+    case "${1:-}" in on) omarchy-toggle-enabled notification-silencing || omarchy-toggle notification-silencing ;; off) omarchy-toggle-enabled notification-silencing && omarchy-toggle notification-silencing ;; esac >/dev/null 2>&1
+    echo "do not disturb ${1:-}" ;;
+
+  reminder) m="${1:?minutes}"; shift; omarchy-reminder "$m" "$*" >/dev/null 2>&1 && echo "reminder set: in $m minutes, $*" ;;
+  reminders) omarchy-reminder show 2>/dev/null || echo "no reminders" ;;
+
+  time) date '+%A %d %B %Y, %I:%M %p' ;;
+  battery) c=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -1); s=$(cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -1); echo "battery ${c:-?}% ${s:-}" ;;
+  weather) omarchy-notification-weather 2>/dev/null; curl -sf --max-time 6 'https://wttr.in/?format=%l:+%c+%t,+%C,+wind+%w' || echo "weather unavailable" ;;
+  clipboard) wl-paste --no-newline 2>/dev/null | head -c 2000 || echo "clipboard is empty" ;;
+
+  crm-followups)
+    crm_json | python3 -I -c '
+import json,sys,datetime
+L=json.load(sys.stdin)["leads"]; today=datetime.date.today().isoformat()
+due=[l for l in L if l.get("nextDate") and l["nextDate"][:10]<=today]
+due.sort(key=lambda l:l["nextDate"])
+if not due: print("No follow-ups due today."); sys.exit()
+print(f"{len(due)} follow-ups due:")
+for l in due[:15]:
+    print(f"- {l.get("company","?")} ({l.get("contact","")}, {l.get("city","")}): {l.get("nextAction","")} on {l["nextDate"][:10]}")
+' || echo "CRM not reachable" ;;
+
+  crm-search)
+    q="$*"; crm_json | python3 -I -c '
+import json,sys
+q=sys.argv[1].lower(); L=json.load(sys.stdin)["leads"]
+hits=[l for l in L if any(q in str(l.get(k,"")).lower() for k in ("company","contact","project","city","state","phone","email"))]
+if not hits: print("No leads match."); sys.exit()
+print(f"{len(hits)} leads match:")
+for l in hits[:10]:
+    print(f"- {l.get("company","?")} | {l.get("contact","")} {l.get("role","")} | {l.get("project","")} | {l.get("city","")} {l.get("state","")} | stage {l.get("stage") or "-"} | next: {l.get("nextAction","") or "-"} {l.get("nextDate","")[:10]} | phone {l.get("phone","") or "-"}")
+' "$q" || echo "CRM not reachable" ;;
+
+  crm-summary)
+    crm_json | python3 -I -c '
+import json,sys,collections
+L=json.load(sys.stdin)["leads"]
+print(f"{len(L)} leads in the CRM.")
+for k in ("stage","status","state"):
+    c=collections.Counter((l.get(k) or "-") for l in L)
+    print(f"by {k}: " + ", ".join(f"{v}: {n}" for v,n in c.most_common(6)))
+' || echo "CRM not reachable" ;;
+
+  crm-list)
+    crm_json | python3 -I -c '
+import json,sys
+L=json.load(sys.stdin)["leads"]; L.sort(key=lambda l:(l.get("state",""),l.get("company","")))
+for l in L:
+    print(f"{l.get("company","?")} | {l.get("contact","")} | {l.get("city","")}, {l.get("state","")} | {l.get("ptype","")} | stage {l.get("stage") or "-"} | next: {l.get("nextAction") or "-"} {l.get("nextDate","")[:10]}")
+' || echo "CRM not reachable" ;;
+
+  crm-lead)
+    q="$*"; crm_json | python3 -I -c '
+import json,sys
+q=sys.argv[1].lower(); L=json.load(sys.stdin)["leads"]
+hits=[l for l in L if q in str(l.get("company","")).lower()] or [l for l in L if q in str(l.get("contact","")).lower()]
+if not hits: print("No lead matches", q); sys.exit()
+if len(hits)>1: print("Several match: " + "; ".join(l.get("company","?") for l in hits[:8])); print()
+l=hits[0]
+for k in ("company","contact","role","phone","email","project","ptype","products","city","state","stage","status","bidDate","value","source","nextAction","nextDate","updatedAt"):
+    v=l.get(k)
+    if v not in (None,"",[]): print(f"{k}: {v}")
+log=l.get("log") or []
+if log:
+    print("activity log (latest first):")
+    for e in sorted(log, key=lambda e: e.get("d",""), reverse=True)[:8]:
+        print(f"  {e.get("d","")}: {str(e.get("t",""))[:400]}")
+' "$q" || echo "CRM not reachable" ;;
+
+  crm-recent)
+    n="${1:-10}"; crm_json | python3 -I -c '
+import json,sys
+n=int(sys.argv[1]); L=json.load(sys.stdin)["leads"]
+L.sort(key=lambda l:l.get("updatedAt",""), reverse=True)
+for l in L[:n]:
+    print(f"{l.get("updatedAt","")[:10]} | {l.get("company","?")} | {l.get("contact","")} | {l.get("city","")}, {l.get("state","")} | next: {l.get("nextAction") or "-"}")
+' "$n" || echo "CRM not reachable" ;;
+
+  crm-state)
+    st="${1:?state code}"; crm_json | python3 -I -c '
+import json,sys
+st=sys.argv[1].upper(); L=[l for l in json.load(sys.stdin)["leads"] if st in [x.strip() for x in str(l.get("state","")).upper().split(",")]]
+print(f"{len(L)} leads cover {st}:")
+for l in sorted(L, key=lambda l:l.get("company","")):
+    print(f"- {l.get("company","?")} | {l.get("contact","")} | {l.get("city","")} | {l.get("phone") or "-"}")
+' "$st" || echo "CRM not reachable" ;;
+
+  lock) omarchy-system-lock >/dev/null 2>&1 & echo "locking" ;;
+  system-menu) omarchy-menu toggle system >/dev/null 2>&1 & echo "system menu is open; he confirms there" ;;
+
+  *) echo "unknown action: $act"; usage; exit 1 ;;
+esac
