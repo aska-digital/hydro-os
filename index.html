@@ -177,6 +177,12 @@ footer .wrap{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
 footer .fbrand{display:flex;align-items:center;gap:10px;font-family:Marcellus,serif;color:var(--gold-bright)}
 footer .fbrand svg{width:22px;height:22px}
 footer p{color:var(--dim);font-size:.85rem;margin-left:auto}
+.aska-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:12px;direction:ltr;padding:10px 18px;background:rgba(21,9,11,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line-soft)}
+.aska-back{display:inline-block;padding:8px 20px;border-radius:999px;background:linear-gradient(160deg,var(--gold-bright),var(--gold) 60%,var(--gold-deep));color:#2a1214;font-weight:600;font-size:.85rem;text-decoration:none;white-space:nowrap}
+.aska-sig{font-size:.8rem;color:var(--dim);white-space:nowrap}
+.aska-sig a{color:var(--gold);text-decoration:none}
+.aska-sig a:hover{color:var(--gold-bright);text-decoration:underline}
+body{padding-bottom:76px}
 </style>
 </head>
 <body>
@@ -440,5 +446,9 @@ document.querySelectorAll('[data-copy]').forEach(function(b){
   });
 });
 </script>
+<div class="aska-bar">
+  <a class="aska-back" href="https://askaconsult.com/">← Back to ASKA</a>
+  <span class="aska-sig">Built by <a href="https://askaconsult.com/digital/">Aska Digital</a></span>
+</div>
 </body>
 </html>
