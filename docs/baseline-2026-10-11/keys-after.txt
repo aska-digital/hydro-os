@@ -1,0 +1,53 @@
+SUPER + RETURN                      → Terminal
+SUPER + W                           → Close window
+SUPER + C                           → Universal copy
+SUPER + V                           → Universal paste
+SUPER + X                           → Universal cut
+SUPER CTRL + V                      → Clipboard manager
+PRINT                               → Screenshot
+SUPER + COMMA                       → Dismiss notification
+ALT + TAB                           → Next window
+SHIFT ALT + D                       → Download Video from Web App
+SHIFT ALT + L                       → Copy URL from Web App
+SUPER + 1                           → WhatsApp
+SUPER + 2                           → Gmail
+SUPER + 3                           → Drive
+SUPER + 4                           → Meet
+SUPER + 5                           → Chromium
+SUPER + 9                           → Rhino CRM
+SUPER CTRL + L                      → Lock screen
+SUPER + ESCAPE                      → Lock or shut down
+SUPER + K                           → Show these keys
+SUPER + R                           → Rhino CRM
+SUPER SHIFT + F                     → Files
+SUPER + SPACE                       → Menu
+ALT + XF86AudioLowerVolume          → Volume down precise
+ALT + XF86AudioPlay                 → Next track
+ALT + XF86AudioRaiseVolume          → Volume up precise
+ALT + XF86MonBrightnessDown         → Brightness down precise
+ALT + XF86MonBrightnessUp           → Brightness up precise
+SHIFT ALT + XF86AudioPlay           → Previous track
+SHIFT + XF86AudioMute               → Switch audio output
+SHIFT + XF86AudioPause              → Switch media source
+SHIFT + XF86AudioPlay               → Switch media source
+SHIFT + XF86MonBrightnessDown       → Brightness minimum
+SHIFT + XF86MonBrightnessUp         → Brightness maximum
+XF86AudioLowerVolume                → Volume down
+XF86AudioMicMute                    → Mute microphone
+XF86AudioMute                       → Mute
+XF86AudioNext                       → Next track
+XF86AudioPause                      → Pause
+XF86AudioPlay                       → Play
+XF86AudioPrev                       → Previous track
+XF86AudioRaiseVolume                → Volume up
+XF86Calculator                      → Calculator
+XF86Eject                           → Eject media
+XF86KbdBrightnessDown               → Keyboard brightness down
+XF86KbdBrightnessUp                 → Keyboard brightness up
+XF86KbdLightOnOff                   → Keyboard backlight cycle
+XF86MonBrightnessDown               → Brightness down
+XF86MonBrightnessUp                 → Brightness up
+XF86PowerOff                        → Power menu
+XF86TouchpadOff                     → Disable touchpad
+XF86TouchpadOn                      → Enable touchpad
+XF86TouchpadToggle                  → Toggle touchpad

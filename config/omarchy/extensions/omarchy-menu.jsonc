@@ -1,0 +1,15 @@
+{
+  // Shahid's menu (SUPER+Space, or the button at the top left).
+  // Keep: Apps, Rhino CRM, Key card, About, System. Hide the rest so a stray
+  // click cannot install, remove, update, restyle or reconfigure the machine.
+  // Everything hidden here is still reachable from a terminal (omarchy ...).
+  "crm": {"icon":"󰠖","label":"Rhino CRM","action":"/home/muse/crm-os/crm.sh","aliases":["rhino","crm"]},
+  "keys": {"icon":"󰌌","label":"Keys","description":"The keys this machine uses","action":"omarchy-menu-keybindings"},
+  "learn": {"when":"false"},
+  "trigger": {"when":"false"},
+  "style": {"when":"false"},
+  "setup": {"when":"false"},
+  "install": {"when":"false"},
+  "remove": {"when":"false"},
+  "update": {"when":"false"}
+}

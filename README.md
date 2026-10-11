@@ -12,6 +12,7 @@ machine. Not a fork — stock Omarchy underneath, our changes tracked here.
 | Path         | What it is |
 |--------------|------------|
 | `hyprland/`  | Guarded Hyprland config blocks we append (Lua or .conf). Each block is marked so upgrades stay clean. |
+| `config/`    | Whole copies of Omarchy user knob files we changed (monitor scale, idle timers, text size). |
 | `launchers/` | `.desktop` files for the app menu (installed to `~/.local/share/applications`). |
 | `scripts/`   | One-time setup scripts. Run as Shahid (no sudo), never as root. |
 | `docs/`      | Plain-language guides: daily use, safe hygiene commands. |
