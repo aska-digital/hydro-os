@@ -10,6 +10,7 @@ CRM="http://127.0.0.1:8741"
 usage() {
   cat <<'EOF'
 jarvis-do actions:
+  cad-open                  start FreeCAD (needed before designing something)
   open <whatsapp|gmail|drive|meet|chromium|crm|files|calculator|terminal>
   web <url>                 open a web page in Chromium
   search <words>            Google search in Chromium
@@ -219,6 +220,9 @@ for l in sorted(L, key=lambda l:l.get("company","")):
     print(f"- {l.get("company","?")} | {l.get("contact","")} | {l.get("city","")} | {l.get("phone") or "-"}")
 ' "$st" || echo "CRM not reachable" ;;
 
+  cad-open)
+    if pgrep -x freecad >/dev/null; then echo "FreeCAD is already open"
+    else setsid -f uwsm-app -- freecad >/dev/null 2>&1; echo "FreeCAD is starting, give it about twenty seconds"; fi ;;
   lock) omarchy-system-lock >/dev/null 2>&1 & echo "locking" ;;
   system-menu) omarchy-menu toggle system >/dev/null 2>&1 & echo "system menu is open; he confirms there" ;;
 

@@ -9,5 +9,6 @@ if hyprctl clients -j 2>/dev/null | jq -e '.[] | select(.class == "jarvis")' >/d
 fi
 exec setsid -f foot --app-id jarvis --title "Jarvis" -e bash -lc "cd '$J/session' && exec claude --model sonnet --name Jarvis \
   --append-system-prompt \"\$(cat '$J/prompt.md')\" \
-  --allowedTools 'Bash(jarvis-do:*)' 'Read(//${XDG_RUNTIME_DIR:-/tmp}/jarvis/**)' WebSearch WebFetch \
-  --disallowedTools Write Edit NotebookEdit Agent Workflow"
+  --mcp-config '$J/freecad-mcp.json' \
+  --allowedTools 'Bash(jarvis-do:*)' 'Read(//${XDG_RUNTIME_DIR:-/tmp}/jarvis/**)' WebSearch WebFetch mcp__freecad \
+  --disallowedTools Write Edit NotebookEdit Agent Workflow mcp__freecad__execute_code_headless"

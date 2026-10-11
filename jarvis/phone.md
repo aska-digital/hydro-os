@@ -33,3 +33,7 @@ Ctrl-b d.
 The phone can still reach charminar over Tailscale (same account), for
 example with a terminal app and `ssh shahid@charminar`, then `jarvis-chat`.
 That is a developer path, not something for Shahid.
+
+## Design work
+
+FreeCAD design ("Making things") works only at the desk. The phone session (jarvis-remote) does not have the FreeCAD tools; if he asks from the phone, say it can be done when he is at charminar.
