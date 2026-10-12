@@ -4,9 +4,11 @@ Hold **Caps Lock** (or F9), speak, let go. Jarvis shows what it heard, does
 the thing or answers, and speaks the reply. **Super+J** opens the same
 assistant as a typed chat in its own window (workspace 6).
 
-Everything runs as Shahid, nothing needs sudo, and the only way Jarvis can act
-on the machine is the `jarvis-do` command, which is a fixed list of safe
-actions. It never touches the CRM server, packages, or system config.
+Everything runs as Shahid and nothing needs sudo. In normal use Jarvis acts on
+the machine through the `jarvis-do` command, a fixed list of safe actions, and
+Bash is limited to it. It is not the only way, though: in design (FreeCAD) mode
+the model also has the FreeCAD MCP tools, and see Safety below for what that
+means.
 
 ## Pieces
 
@@ -19,7 +21,7 @@ actions. It never touches the CRM server, packages, or system config.
 | `bin/jarvis-say` | Text to speech. Online neural voices (English, Urdu, Arabic) through edge-tts; local Piper voices (English, Arabic) when offline. |
 | `bin/jarvis-chat` | Opens Claude Code interactively in a `jarvis` window with the same prompt and the same `jarvis-do` hands. |
 | `prompt.md` | Who Jarvis is, how to answer, what it may do. `prompt-voice.md` adds the JSON reply format used in voice mode. |
-| `session-CLAUDE.md` | Standing context, installed as `~/.local/share/jarvis/session/CLAUDE.md` and loaded by every Jarvis session (voice, chat, phone): who Shahid is, his territory, how he phrases requests and which CRM lookup each one means, the CRM fields, how to write in his voice. |
+| `session-CLAUDE.example.md` | Template for the standing context. `install.sh` copies it to `~/.local/share/jarvis/session/CLAUDE.md` only if that file does not exist yet, and never overwrites it. The real file (who the owner is, territory, how they phrase requests) stays private on the machine and is not in the repo. Every Jarvis session (voice, chat, phone) loads it. |
 | `jarvis-remote`, `jarvis-remote.service` | The standing Remote Control session for the phone app (see `phone.md`). |
 | `voxtype.toml` | Speech recognition settings: Whisper base (multilingual, auto language). |
 | `install.sh` | Puts it all in place: symlinks in ~/.local/bin, Python venv (uv) with piper-tts and edge-tts, voice models, Whisper model, beeps. |
@@ -46,7 +48,8 @@ Caps Lock no longer toggles capitals (`caps:menu` in `hyprland/simple-input.lua`
 
 ## Safety
 
-- `jarvis-do` is the whole surface. Adding an action means adding a case there.
+- `jarvis-do` is the whole surface for Bash. Adding an action means adding a case there.
+- In design (FreeCAD) mode the model also has the FreeCAD MCP tools. Its `execute_code` tool runs arbitrary Python as the desktop user, and the ban on the Write and Edit tools does not contain it. This applies to the voice and typed sessions on the laptop; the phone session has no FreeCAD tools (see `phone.md`). The trust boundary is therefore the desktop user account, not the `jarvis-do` list. The prompt tells the model to use `execute_code` only for building and saving parts, but that is an instruction, not a sandbox.
 - Shutting down, restarting and logging out are not actions: Jarvis opens the system menu and Shahid picks.
 - CRM access is read-only over the local HTTP API; the server and `/home/muse` are never touched.
 - No session data leaves the machine except the request to Claude (Shahid's own account) and the text sent to the online voice service.

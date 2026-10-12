@@ -12,10 +12,8 @@ repos; this file records where they are deployed and who owns them.
 - Database: `/home/muse/crm-os/data/crm.db` (SQLite, WAL mode). Daily backups
   in `data/backups/` (30-day retention). Never open the database file
   directly — use the HTTP API.
-- Owner: hyd-nawab. Collaborator: hyd-nizam.
 
 ## protean-kit
 - Deployed to: `/home/shahid/protean-kit/` on charminar.
 - What it is: the on-machine protean agent system (Hermes), installed
-  2026-10-09 by hyd-nizam from the aska-digital repos.
-- Owner: hyd-nizam.
+  2026-10-09 from the aska-digital repos.

@@ -19,12 +19,12 @@ Overdue follow-ups pop up as a desktop notification once a day.
 
 ## Check the Drive sync
 The CRM pulls the web app's changes from Google Drive by itself, every hour.
-If the sync status looks old or shows an error, tell Nawab — do not try to
+If the sync status looks old or shows an error, tell Ahraz — do not try to
 fix the database yourself.
 
 ## If the CRM does not open
 1. Wait a few seconds and press SUPER+R again.
-2. If it still does not open, tell Nawab what you see. Do not delete anything
+2. If it still does not open, tell Ahraz what you see. Do not delete anything
    under `/home/muse/crm-os/`.
 
 ## Updates

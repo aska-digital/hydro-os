@@ -18,7 +18,7 @@ disabled; the `--remote-control` flag on an interactive session is what works.
 ## The standing session
 
     systemctl --user status jarvis-remote.service
-    systemctl --user restart jarvis-remote.service   # after changing prompt.md or session-CLAUDE.md
+    systemctl --user restart jarvis-remote.service   # after changing prompt.md or the session CLAUDE.md
 
 `jarvis-remote.service` (in this directory) keeps a tmux session named
 `jarvis` running `claude --remote-control charminar` in `~/.local/share/jarvis/session`
