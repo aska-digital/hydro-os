@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Name=Gmail (new message)
-Exec=/home/shahid/.local/bin/gmail-mailto %u
+Exec=@HOME@/.local/bin/gmail-mailto %u
 Icon=gmail
 Terminal=false
 NoDisplay=true

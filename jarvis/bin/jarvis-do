@@ -95,7 +95,9 @@ case "$act" in
   notify) omarchy-notification-send -g "󰭻" "Jarvis" "$*" >/dev/null 2>&1; echo "shown" ;;
 
   close-window) hyprctl dispatch "hl.dsp.window.close()" >/dev/null 2>&1 || hyprctl dispatch killactive >/dev/null; echo "closed" ;;
-  workspace) n="${1:?n}"; hyprctl dispatch "hl.dsp.focus({ workspace = $n })" >/dev/null 2>&1 || hyprctl dispatch workspace "$n" >/dev/null; echo "on workspace $n" ;;
+  workspace)
+    n="${1:?n}"; [[ $n =~ ^[1-9]$ ]] || { echo "workspace 1-9"; exit 1; }
+    hyprctl dispatch "hl.dsp.focus({ workspace = $n })" >/dev/null 2>&1 || hyprctl dispatch workspace "$n" >/dev/null; echo "on workspace $n" ;;
   window) hyprctl activewindow -j | jq -r '"\(.class) — \(.title) (workspace \(.workspace.id))"' ;;
 
   screenshot)
@@ -203,7 +205,8 @@ if log:
 ' "$q" || echo "CRM not reachable" ;;
 
   crm-recent)
-    n="${1:-10}"; crm_json | python3 -I -c '
+    n="${1:-10}"; [[ $n =~ ^[0-9]+$ ]] || { echo "crm-recent [n]: n must be a number"; exit 1; }
+    crm_json | python3 -I -c '
 import json,sys
 n=int(sys.argv[1]); L=json.load(sys.stdin)["leads"]
 L.sort(key=lambda l:l.get("updatedAt",""), reverse=True)

@@ -7,5 +7,7 @@ SRC="$(cd "$(dirname "$0")/../launchers" && pwd)/$NAME.desktop"
 [ -f "$SRC" ] || { echo "no such launcher: $NAME"; exit 1; }
 DEST="$HOME/.local/share/applications/$NAME.desktop"
 mkdir -p "$(dirname "$DEST")"
-cp "$SRC" "$DEST"
+# @HOME@ in a launcher is replaced with the real home directory (.desktop
+# files do not expand $HOME themselves). A no-op for launchers without it.
+sed "s|@HOME@|$HOME|g" "$SRC" > "$DEST"
 echo "installed: $DEST"
