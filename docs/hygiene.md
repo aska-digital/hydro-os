@@ -39,6 +39,6 @@ restarts at login by itself.
 
 ## Do NOT touch
 - The CRM server process (`python3 /home/muse/crm-os/server.py`) — never
-  stop, kill, or restart it yourself. If it misbehaves, tell Nawab.
+  stop, kill, or restart it yourself. If it misbehaves, tell Ahraz.
 - Anything under `/home/muse/` — that is the CRM owner's area.
 - `paccache -rk0` (deletes all cached packages) — not needed.

@@ -14,7 +14,11 @@ for s in "$HERE"/bin/jarvis-*; do
   chmod +x "$s"
 done
 cp "$HERE/prompt.md" "$HERE/prompt-voice.md" "$HERE/voxtype.toml" "$J/"
-cp "$HERE/session-CLAUDE.md" "$J/session/CLAUDE.md"   # standing context: who Shahid is, how he asks
+# Standing context about the owner. The real file is private to this machine: copy the template only if none exists, never overwrite.
+if [ ! -e "$J/session/CLAUDE.md" ]; then
+  cp "$HERE/session-CLAUDE.example.md" "$J/session/CLAUDE.md"
+  echo "Fill in $J/session/CLAUDE.md (about the owner; template copied, replace the <placeholders>)."
+fi
 mkdir -p "$HOME/.config/systemd/user" && cp "$HERE/jarvis-remote.service" "$HOME/.config/systemd/user/" && systemctl --user daemon-reload 2>/dev/null || true
 
 echo "python environment (uv)..."

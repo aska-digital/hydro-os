@@ -5,7 +5,6 @@ machine. Not a fork — stock Omarchy underneath, our changes tracked here.
 
 - Pinned Omarchy version: see `VERSION`.
 - Machine: charminar (Omarchy Linux, Hyprland/Wayland).
-- Team: hydro-team (hyd-nawab + hyd-nizam).
 
 ## What lives here
 
