@@ -1,0 +1,8 @@
+[Unit]
+Description=Test new commits of Exo main on this machine
+
+[Service]
+Type=oneshot
+Nice=10
+MemoryMax=2G
+ExecStart=%h/.local/bin/exo-watch

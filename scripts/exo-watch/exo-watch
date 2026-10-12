@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# exo-watch: test new commits of aska-digital/exo main on this machine. See README.
+set -u
+SRC=$HOME/Work/exo LIVE=$HOME/Work/exo-live AUD=$HOME/Work/exo-audit
+LOG=$AUD/ci.log STATE=$AUD/ci/.last-red OUT=$(mktemp -d) PY=$LIVE/.venv/bin/python
+export PATH=$HOME/.local/share/mise/installs/node/latest/bin:$PATH:$HOME/.local/share/mise/installs/uv/latest/.mise-bins  # real node, not the mise shim (the shim fails untrusted-config under systemd)
+EXTRAS='.[tui,dev,bus,mcp]'
+trap 'rm -rf "$OUT"' EXIT
+exec 9>"$AUD/ci/.lock"; flock -n 9 || exit 0
+mem() { awk '/MemAvailable/{print int($2/1024)}' /proc/meminfo; }
+git -C "$SRC" fetch -q origin main || { echo "fetch failed"; exit 0; }
+new=$(git -C "$SRC" rev-parse origin/main); old=$(git -C "$LIVE" rev-parse HEAD)
+s=$(git -C "$SRC" rev-parse --short "$new")
+if [ -z "${EXO_WATCH_FORCE:-}" ]; then
+  [ "$new" = "$old" ] && exit 0
+  [ "$new" = "$(cat "$STATE" 2>/dev/null)" ] && exit 0
+fi
+m=$(mem); [ "$m" -lt 1000 ] && { echo "skip $s: MemAvailable ${m}MB"; echo "$(date -Is) $s skipped low-mem ${m}MB" >>"$LOG"; exit 0; }
+cd "$LIVE" && git checkout -q --detach "$new" || exit 1
+start=$(date +%s); fail=0; counts=""
+nice -n 10 uv pip install -q -p "$PY" -e "$EXTRAS" >"$OUT/install.txt" 2>&1 || { fail=1; echo "install failed" >>"$OUT/summary.txt"; }
+for t in tests $(ls -d plugins/*/ 2>/dev/null); do
+  n=$(basename "$t"); [ "$(mem)" -lt 800 ] && { fail=1; echo "stopped: low memory" >>"$OUT/summary.txt"; break; }
+  if [ -n "${EXO_WATCH_FORCE_RED:-}" ] && [ "$n" = tests ]; then echo "FAILED forced (EXO_WATCH_FORCE_RED)" >"$OUT/$n.txt"; r=1
+  else nice -n 10 "$PY" -m pytest -q --tb=short -p no:cacheprovider "${t%/}" >"$OUT/$n.txt" 2>&1; r=$?; fi
+  counts="$counts $n:$(tail -n1 "$OUT/$n.txt" | tr -d '=' | sed 's/ in .*//;s/^ *//')"
+  [ $r -ne 0 ] && { fail=1; { echo "## $n"; grep -E '^(FAILED|ERROR)' "$OUT/$n.txt"; tail -n 25 "$OUT/$n.txt"; } >>"$OUT/summary.txt"; }
+done
+secs=$(( $(date +%s) - start )); pre=""; [ -n "${EXO_WATCH_FORCE_RED:-}" ] && pre="TEST: "
+if [ $fail = 0 ]; then echo "$(date -Is) $s green$counts ${secs}s" >>"$LOG"; : >"$STATE"; exit 0; fi
+echo "$(date -Is) $s red$counts ${secs}s" >>"$LOG"; echo "$new" >"$STATE"
+{ echo "# exo main $s: red"; echo; echo "Linux: $(uname -sr), $($PY -V), MemAvailable $(mem) MB, ${secs}s"; echo
+  cat "$OUT/summary.txt"; } >"$AUD/ci/$s.md"
+git checkout -q --detach "$old"; nice -n 10 uv pip install -q -p "$PY" -e "$EXTRAS" >/dev/null 2>&1
+msg="${pre}exo main $s is red on Linux:$counts. Details: $AUD/ci/$s.md"
+(cd ~ && DIVAN_URL=http://100.95.188.96:8787 DIVAN_SEAT=saga-minar ~/divan-bus/.venv/bin/python ~/divan-bus/clients/divan.py post --to saga-divan --thread exo-ci "$msg") >/dev/null 2>&1
+tmux has-session -t minar 2>/dev/null && { tmux send-keys -t minar "${pre}exo-watch: main $s red, see ci/$s.md"; tmux send-keys -t minar Enter; }
+exit 0
