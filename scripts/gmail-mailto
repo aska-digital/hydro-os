@@ -3,6 +3,9 @@
 # Installed to ~/.local/bin/gmail-mailto by scripts/tidy-launchers.sh.
 url="$1"
 if [[ $url =~ ^mailto: ]]; then
-  exec omarchy-launch-webapp "https://mail.google.com/mail/?extsrc=mailto&url=$url"
+  # Nested in Gmail's query string, so the mailto URL itself must be encoded
+  # (a raw ?subject= / &body= would otherwise leak into Gmail's parameters).
+  enc=$(python3 -I -c 'import sys,urllib.parse; print(urllib.parse.quote(sys.argv[1], safe=""))' "$url")
+  exec omarchy-launch-webapp "https://mail.google.com/mail/?extsrc=mailto&url=$enc"
 fi
 exec omarchy-launch-webapp "https://mail.google.com"
