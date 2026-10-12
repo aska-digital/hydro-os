@@ -1,0 +1,44 @@
+#!/bin/bash
+# minar-desk: the charminar end of the saga-divan link.
+#   minar-desk show            text on stdin -> popup window + clipboard + saved note
+#   minar-desk keys            popup that asks A for Exo API keys (hidden input, written to keys.env 600)
+#   minar-desk attach          popup terminal attached to the saga-minar tmux session
+#   minar-desk start [model]   start saga-minar in tmux session "minar" if not running
+# Runs over ssh from the Mac, so it finds the Wayland session itself.
+set -u
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-$(ls "$XDG_RUNTIME_DIR" | grep -m1 -E '^wayland-[0-9]+$')}"
+export HYPRLAND_INSTANCE_SIGNATURE="${HYPRLAND_INSTANCE_SIGNATURE:-$(ls -t "$XDG_RUNTIME_DIR/hypr" | head -1)}"
+export PATH="$HOME/.local/bin:$PATH"
+NOTES="$HOME/Work/inbox"; mkdir -p "$NOTES"
+popup() { hyprctl -q dispatch exec "[float; size 1100 700; center] foot --title=saga-divan $*"; }
+
+case "${1:-}" in
+  show)
+    f="$NOTES/$(date +%Y%m%d-%H%M%S).md"; cat > "$f"
+    wl-copy < "$f"
+    notify-send -a saga-divan "From saga-divan" "Copied to clipboard. Saved in ~/Work/inbox." >/dev/null 2>&1
+    popup "sh -c 'less -R \"$f\"'" ;;
+  keys)
+    popup "$HOME/.local/bin/minar-desk keys-prompt" ;;
+  keys-prompt)
+    k="$HOME/.config/exo/keys.env"; mkdir -p "${k%/*}"; touch "$k"; chmod 600 "$k"
+    echo "Exo keys for charminar. Typing is hidden. Press Enter on an empty line to skip one."; echo
+    for name in OPENCODE_GO_API_KEY NOUS_API_KEY TYPESAFE_API_KEY; do
+      printf '%s: ' "$name"; read -rs v; echo
+      if [ -n "$v" ]; then
+        grep -v "^$name=" "$k" > "$k.tmp" || true; printf '%s=%s\n' "$name" "$v" >> "$k.tmp"
+        chmod 600 "$k.tmp"; mv "$k.tmp" "$k"; echo "  saved"
+      fi; unset v
+    done
+    echo; ls -l "$k"; echo "Saved names: $(cut -d= -f1 "$k" | tr '\n' ' ')"
+    printf '\nDone. Press Enter to close.'; read -r _ ;;
+  attach)
+    popup "tmux attach -t minar" ;;
+  start)
+    tmux has-session -t minar 2>/dev/null && { echo running; exit 0; }
+    m="${2:+--model $2}"
+    tmux new-session -d -s minar -x 200 -y 50 -c "$HOME/Work" "exec claude --dangerously-skip-permissions --name saga-minar $m"
+    echo started ;;
+  *) sed -n 2,7p "$0"; exit 2 ;;
+esac

@@ -31,6 +31,7 @@ for id in Docker "Disk Usage"; do
 done
 
 install -m 755 "$HERE/gmail-mailto" "$HOME/.local/bin/gmail-mailto"
+install -m 755 "$HERE/minar-desk" "$HOME/.local/bin/minar-desk"
 install -m 644 "$HERE/../launchers/gmail-mailto.desktop" "$APPS/gmail-mailto.desktop"
 xdg-mime default gmail-mailto.desktop x-scheme-handler/mailto
 update-desktop-database "$APPS" 2>/dev/null || true
