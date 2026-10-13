@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "freecad": {
-      "command": "uvx",
-      "args": ["--from", "git+https://github.com/neka-nat/freecad-mcp@4751f953636f46b825424320c2f76e11159dd8c0", "freecad-mcp", "--only-text-feedback"]
-    }
-  }
-}
